@@ -5,10 +5,16 @@ import 'package:serverpod/serverpod.dart';
 import '../generated/protocol.dart';
 
 class QuotesEndpoint extends Endpoint {
-  Future<List<Quote>> getAllQuotes(Session session) async {
+  Future<List<Quote>> getAllQuotes(
+    Session session, {
+    int? limit,
+    int? skip,
+  }) async {
     return await Quote.db.find(
       session,
       orderBy: (t) => t.id,
+      limit: limit,
+      offset: skip,
     );
   }
 

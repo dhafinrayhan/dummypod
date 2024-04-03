@@ -34,11 +34,17 @@ class EndpointQuotes extends _i1.EndpointRef {
   @override
   String get name => 'quotes';
 
-  _i2.Future<List<_i3.Quote>> getAllQuotes() =>
+  _i2.Future<List<_i3.Quote>> getAllQuotes({
+    int? limit,
+    int? skip,
+  }) =>
       caller.callServerEndpoint<List<_i3.Quote>>(
         'quotes',
         'getAllQuotes',
-        {},
+        {
+          'limit': limit,
+          'skip': skip,
+        },
       );
 
   _i2.Future<_i3.Quote?> getQuote(int id) =>

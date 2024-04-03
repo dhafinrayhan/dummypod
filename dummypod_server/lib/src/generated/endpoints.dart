@@ -59,12 +59,27 @@ class Endpoints extends _i1.EndpointDispatch {
       methodConnectors: {
         'getAllQuotes': _i1.MethodConnector(
           name: 'getAllQuotes',
-          params: {},
+          params: {
+            'limit': _i1.ParameterDescription(
+              name: 'limit',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'skip': _i1.ParameterDescription(
+              name: 'skip',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+          },
           call: (
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quotes'] as _i3.QuotesEndpoint).getAllQuotes(session),
+              (endpoints['quotes'] as _i3.QuotesEndpoint).getAllQuotes(
+            session,
+            limit: params['limit'],
+            skip: params['skip'],
+          ),
         ),
         'getQuote': _i1.MethodConnector(
           name: 'getQuote',

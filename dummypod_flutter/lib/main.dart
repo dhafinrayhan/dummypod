@@ -24,7 +24,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DummyPod Demo',
-      theme: ThemeData(colorSchemeSeed: Colors.orange),
+      theme: ThemeData(
+        colorSchemeSeed: Colors.orange,
+        inputDecorationTheme:
+            const InputDecorationTheme(border: OutlineInputBorder()),
+      ),
       home: const MyHomePage(title: 'DummyPod Example'),
     );
   }
@@ -37,6 +41,8 @@ class MyHomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final limitController = useTextEditingController();
+    final skipController = useTextEditingController();
     final quoteIdController = useTextEditingController(text: '1');
 
     return Scaffold(
@@ -45,18 +51,41 @@ class MyHomePage extends HookWidget {
       ),
       body: Center(
         child: SeparatedColumn(
-          separatorBuilder: () => const Gap(8),
+          separatorBuilder: () => const Gap(16),
           padding: const EdgeInsets.all(16),
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RequestButton(
-              label: 'Get all quotes',
-              onRequest: () async {
-                final quotes = await client.quotes.getAllQuotes();
-                return quotes;
-              },
+            SeparatedRow(
+              separatorBuilder: () => const Gap(8),
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: limitController,
+                    decoration: const InputDecoration(labelText: 'Limit'),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: skipController,
+                    decoration: const InputDecoration(labelText: 'Skip'),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                RequestButton(
+                  label: 'Get all quotes',
+                  onRequest: () async {
+                    final quotes = await client.quotes.getAllQuotes(
+                      limit: int.tryParse(limitController.text),
+                      skip: int.tryParse(skipController.text),
+                    );
+                    return quotes;
+                  },
+                ),
+              ],
             ),
-            Row(
+            SeparatedRow(
+              separatorBuilder: () => const Gap(8),
               children: [
                 Expanded(
                   child: TextField(
