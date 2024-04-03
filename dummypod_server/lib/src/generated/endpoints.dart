@@ -10,6 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/example_endpoint.dart' as _i2;
+import '../endpoints/quotes_endpoint.dart' as _i3;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -20,7 +21,13 @@ class Endpoints extends _i1.EndpointDispatch {
           server,
           'example',
           null,
-        )
+        ),
+      'quotes': _i3.QuotesEndpoint()
+        ..initialize(
+          server,
+          'quotes',
+          null,
+        ),
     };
     connectors['example'] = _i1.EndpointConnector(
       name: 'example',
@@ -44,6 +51,39 @@ class Endpoints extends _i1.EndpointDispatch {
             params['name'],
           ),
         )
+      },
+    );
+    connectors['quotes'] = _i1.EndpointConnector(
+      name: 'quotes',
+      endpoint: endpoints['quotes']!,
+      methodConnectors: {
+        'getAllQuotes': _i1.MethodConnector(
+          name: 'getAllQuotes',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quotes'] as _i3.QuotesEndpoint).getAllQuotes(session),
+        ),
+        'getQuote': _i1.MethodConnector(
+          name: 'getQuote',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['quotes'] as _i3.QuotesEndpoint).getQuote(
+            session,
+            params['id'],
+          ),
+        ),
       },
     );
   }

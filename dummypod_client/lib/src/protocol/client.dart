@@ -10,7 +10,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'protocol.dart' as _i3;
+import 'package:dummypod_client/src/protocol/quote.dart' as _i3;
+import 'protocol.dart' as _i4;
 
 /// {@category Endpoint}
 class EndpointExample extends _i1.EndpointRef {
@@ -26,6 +27,28 @@ class EndpointExample extends _i1.EndpointRef {
       );
 }
 
+/// {@category Endpoint}
+class EndpointQuotes extends _i1.EndpointRef {
+  EndpointQuotes(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'quotes';
+
+  _i2.Future<List<_i3.Quote>> getAllQuotes() =>
+      caller.callServerEndpoint<List<_i3.Quote>>(
+        'quotes',
+        'getAllQuotes',
+        {},
+      );
+
+  _i2.Future<_i3.Quote?> getQuote(int id) =>
+      caller.callServerEndpoint<_i3.Quote?>(
+        'quotes',
+        'getQuote',
+        {'id': id},
+      );
+}
+
 class Client extends _i1.ServerpodClient {
   Client(
     String host, {
@@ -35,19 +58,25 @@ class Client extends _i1.ServerpodClient {
     Duration? connectionTimeout,
   }) : super(
           host,
-          _i3.Protocol(),
+          _i4.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
         ) {
     example = EndpointExample(this);
+    quotes = EndpointQuotes(this);
   }
 
   late final EndpointExample example;
 
+  late final EndpointQuotes quotes;
+
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'example': example};
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'example': example,
+        'quotes': quotes,
+      };
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};

@@ -1,6 +1,9 @@
 import 'package:dummypod_client/dummypod_client.dart';
 import 'package:flutter/material.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flextras/flextras.dart';
+import 'package:gap/gap.dart';
 
 // Sets up a singleton client object that can be used to talk to the server from
 // anywhere in our app. The client is generated from your server code.
@@ -20,79 +23,58 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Serverpod Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Serverpod Example'),
+      title: 'DummyPod Demo',
+      theme: ThemeData(colorSchemeSeed: Colors.orange),
+      home: const MyHomePage(title: 'DummyPod Example'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends HookWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  MyHomePageState createState() => MyHomePageState();
-}
-
-class MyHomePageState extends State<MyHomePage> {
-  // These fields hold the last result or error message that we've received from
-  // the server or null if no result exists yet.
-  String? _resultMessage;
-  String? _errorMessage;
-
-  final _textEditingController = TextEditingController();
-
-  // Calls the `hello` method of the `example` endpoint. Will set either the
-  // `_resultMessage` or `_errorMessage` field, depending on if the call
-  // is successful.
-  void _callHello() async {
-    try {
-      final result = await client.example.hello(_textEditingController.text);
-      setState(() {
-        _errorMessage = null;
-        _resultMessage = result;
-      });
-    } catch (e) {
-      setState(() {
-        _errorMessage = '$e';
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final quoteIdController = useTextEditingController(text: '1');
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+      body: Center(
+        child: SeparatedColumn(
+          separatorBuilder: () => const Gap(8),
+          padding: const EdgeInsets.all(16),
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: TextField(
-                controller: _textEditingController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter your name',
+            RequestButton(
+              label: 'Get all quotes',
+              onRequest: () async {
+                final quotes = await client.quotes.getAllQuotes();
+                return quotes;
+              },
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: quoteIdController,
+                    decoration: const InputDecoration(labelText: 'ID'),
+                    keyboardType: TextInputType.number,
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: ElevatedButton(
-                onPressed: _callHello,
-                child: const Text('Send to Server'),
-              ),
-            ),
-            _ResultDisplay(
-              resultMessage: _resultMessage,
-              errorMessage: _errorMessage,
-            ),
+                RequestButton(
+                  label: 'Get a single quote',
+                  onRequest: () async {
+                    final id = int.parse(quoteIdController.text);
+                    final quote = await client.quotes.getQuote(id);
+                    return quote;
+                  },
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -100,38 +82,35 @@ class MyHomePageState extends State<MyHomePage> {
   }
 }
 
-// _ResultDisplays shows the result of the call. Either the returned result from
-// the `example.hello` endpoint method or an error message.
-class _ResultDisplay extends StatelessWidget {
-  final String? resultMessage;
-  final String? errorMessage;
-
-  const _ResultDisplay({
-    this.resultMessage,
-    this.errorMessage,
+class RequestButton extends StatelessWidget {
+  const RequestButton({
+    super.key,
+    required this.onRequest,
+    required this.label,
   });
+
+  final Future<Object?> Function() onRequest;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    String text;
-    Color backgroundColor;
-    if (errorMessage != null) {
-      backgroundColor = Colors.red[300]!;
-      text = errorMessage!;
-    } else if (resultMessage != null) {
-      backgroundColor = Colors.green[300]!;
-      text = resultMessage!;
-    } else {
-      backgroundColor = Colors.grey[300]!;
-      text = 'No server response yet.';
-    }
+    return FilledButton(
+      onPressed: () async {
+        final result = await onRequest();
 
-    return Container(
-      height: 50,
-      color: backgroundColor,
-      child: Center(
-        child: Text(text),
-      ),
+        if (!context.mounted) return;
+        showDialog(
+          context: context,
+          builder: (_) => SimpleDialog(
+            title: Text(label),
+            contentPadding: const EdgeInsets.all(16),
+            children: [
+              Text(result.toString()),
+            ],
+          ),
+        );
+      },
+      child: Text(label),
     );
   }
 }

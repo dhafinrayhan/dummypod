@@ -1,0 +1,5 @@
+class: Quote
+table: quote
+fields:
+  quote: String
+  author: String
