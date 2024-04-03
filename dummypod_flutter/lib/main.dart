@@ -74,7 +74,14 @@ class MyHomePage extends HookWidget {
                   },
                 ),
               ],
-            )
+            ),
+            RequestButton(
+              label: 'Get a random quote',
+              onRequest: () async {
+                final quote = await client.quotes.getRandomQuote();
+                return quote;
+              },
+            ),
           ],
         ),
       ),

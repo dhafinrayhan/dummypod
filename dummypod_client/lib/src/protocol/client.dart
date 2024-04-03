@@ -47,6 +47,13 @@ class EndpointQuotes extends _i1.EndpointRef {
         'getQuote',
         {'id': id},
       );
+
+  _i2.Future<_i3.Quote> getRandomQuote() =>
+      caller.callServerEndpoint<_i3.Quote>(
+        'quotes',
+        'getRandomQuote',
+        {},
+      );
 }
 
 class Client extends _i1.ServerpodClient {

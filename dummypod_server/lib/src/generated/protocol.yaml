@@ -3,3 +3,4 @@ example:
 quotes:
   - getAllQuotes:
   - getQuote:
+  - getRandomQuote:
