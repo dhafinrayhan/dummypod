@@ -46,6 +46,7 @@ class MyHomePage extends HookWidget {
         children: [
           ListTile(
             title: const Text('Get all products'),
+            subtitle: const Text('+ Search products'),
             onTap: () => context.pushPage((_) => const GetAllProductsScreen()),
           ),
           ListTile(
