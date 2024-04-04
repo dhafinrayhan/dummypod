@@ -36,7 +36,7 @@ jobs:
           aws-region: us-west-2
 
       - name: Create passwords file
-        working-directory: dummypod_server
+        working-directory: apps/dummypod_server
         shell: bash
         env:
           SERVERPOD_PASSWORDS: ${{ secrets.SERVERPOD_PASSWORDS }}
@@ -46,11 +46,11 @@ jobs:
           ls config/
 
       - name: Get Dart packages
-        working-directory: dummypod_server
+        working-directory: apps/dummypod_server
         run: dart pub get
 
       - name: Compile server
-        working-directory: dummypod_server
+        working-directory: apps/dummypod_server
         run: dart compile kernel bin/main.dart
 
       - name: Create CodeDeploy Deployment
@@ -65,7 +65,7 @@ jobs:
           TARGET="${TARGET:=${GITHUB_REF##*-}}"
           echo "Deploying to target: $TARGET"
           mkdir -p vendor
-          cp "${PROJECT_NAME}_server/deploy/aws/scripts/appspec.yml" appspec.yml
+          cp "apps/${PROJECT_NAME}_server/deploy/aws/scripts/appspec.yml" appspec.yml
           zip -r deployment.zip .
           aws s3 cp deployment.zip "s3://${DEPLOYMENT_BUCKET}/deployment.zip"
           aws deploy create-deployment \
