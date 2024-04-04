@@ -1,0 +1,5 @@
+name: dummypod
+
+packages:
+  - apps/**
+  - packages/**
