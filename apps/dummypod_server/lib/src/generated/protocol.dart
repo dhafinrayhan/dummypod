@@ -13,7 +13,8 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
 import 'product.dart' as _i3;
 import 'quote.dart' as _i4;
-import 'package:dummypod_server/src/generated/quote.dart' as _i5;
+import 'package:dummypod_server/src/generated/product.dart' as _i5;
+import 'package:dummypod_server/src/generated/quote.dart' as _i6;
 export 'product.dart';
 export 'quote.dart';
 
@@ -191,8 +192,12 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data as List).map((e) => deserialize<String>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i5.Quote>) {
-      return (data as List).map((e) => deserialize<_i5.Quote>(e)).toList()
+    if (t == List<_i5.Product>) {
+      return (data as List).map((e) => deserialize<_i5.Product>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i6.Quote>) {
+      return (data as List).map((e) => deserialize<_i6.Quote>(e)).toList()
           as dynamic;
     }
     try {

@@ -41,33 +41,93 @@ class MyHomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final limitController = useTextEditingController();
-    final skipController = useTextEditingController();
+    // Products
+    final productsLimitController = useTextEditingController();
+    final productsSkipController = useTextEditingController();
+    final productIdController = useTextEditingController(text: '1');
+
+    // Quotes
+    final quotesLimitController = useTextEditingController();
+    final quotesSkipController = useTextEditingController();
     final quoteIdController = useTextEditingController(text: '1');
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: SeparatedColumn(
           separatorBuilder: () => const Gap(16),
           padding: const EdgeInsets.all(16),
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Products
             SeparatedRow(
               separatorBuilder: () => const Gap(8),
               children: [
                 Expanded(
                   child: TextField(
-                    controller: limitController,
+                    controller: productsLimitController,
                     decoration: const InputDecoration(labelText: 'Limit'),
                     keyboardType: TextInputType.number,
                   ),
                 ),
                 Expanded(
                   child: TextField(
-                    controller: skipController,
+                    controller: productsSkipController,
+                    decoration: const InputDecoration(labelText: 'Skip'),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                RequestButton(
+                  label: 'Get all products',
+                  onRequest: () async {
+                    final products = await client.products.getAllProducts(
+                      limit: int.tryParse(productsLimitController.text),
+                      skip: int.tryParse(productsSkipController.text),
+                    );
+                    return products;
+                  },
+                ),
+              ],
+            ),
+            SeparatedRow(
+              separatorBuilder: () => const Gap(8),
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: productIdController,
+                    decoration: const InputDecoration(labelText: 'ID'),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                RequestButton(
+                  label: 'Get a single product',
+                  onRequest: () async {
+                    final id = int.parse(productIdController.text);
+                    final product = await client.products.getProduct(id);
+                    return product;
+                  },
+                ),
+              ],
+            ),
+
+            const Divider(),
+
+            // Quotes
+            SeparatedRow(
+              separatorBuilder: () => const Gap(8),
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: quotesLimitController,
+                    decoration: const InputDecoration(labelText: 'Limit'),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: quotesSkipController,
                     decoration: const InputDecoration(labelText: 'Skip'),
                     keyboardType: TextInputType.number,
                   ),
@@ -76,8 +136,8 @@ class MyHomePage extends HookWidget {
                   label: 'Get all quotes',
                   onRequest: () async {
                     final quotes = await client.quotes.getAllQuotes(
-                      limit: int.tryParse(limitController.text),
-                      skip: int.tryParse(skipController.text),
+                      limit: int.tryParse(quotesLimitController.text),
+                      skip: int.tryParse(quotesSkipController.text),
                     );
                     return quotes;
                   },

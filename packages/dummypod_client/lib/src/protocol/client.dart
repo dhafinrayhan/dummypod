@@ -10,8 +10,37 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:dummypod_client/src/protocol/quote.dart' as _i3;
-import 'protocol.dart' as _i4;
+import 'package:dummypod_client/src/protocol/product.dart' as _i3;
+import 'package:dummypod_client/src/protocol/quote.dart' as _i4;
+import 'protocol.dart' as _i5;
+
+/// {@category Endpoint}
+class EndpointProducts extends _i1.EndpointRef {
+  EndpointProducts(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'products';
+
+  _i2.Future<List<_i3.Product>> getAllProducts({
+    int? limit,
+    int? skip,
+  }) =>
+      caller.callServerEndpoint<List<_i3.Product>>(
+        'products',
+        'getAllProducts',
+        {
+          'limit': limit,
+          'skip': skip,
+        },
+      );
+
+  _i2.Future<_i3.Product?> getProduct(int id) =>
+      caller.callServerEndpoint<_i3.Product?>(
+        'products',
+        'getProduct',
+        {'id': id},
+      );
+}
 
 /// {@category Endpoint}
 class EndpointQuotes extends _i1.EndpointRef {
@@ -20,11 +49,11 @@ class EndpointQuotes extends _i1.EndpointRef {
   @override
   String get name => 'quotes';
 
-  _i2.Future<List<_i3.Quote>> getAllQuotes({
+  _i2.Future<List<_i4.Quote>> getAllQuotes({
     int? limit,
     int? skip,
   }) =>
-      caller.callServerEndpoint<List<_i3.Quote>>(
+      caller.callServerEndpoint<List<_i4.Quote>>(
         'quotes',
         'getAllQuotes',
         {
@@ -33,15 +62,15 @@ class EndpointQuotes extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<_i3.Quote?> getQuote(int id) =>
-      caller.callServerEndpoint<_i3.Quote?>(
+  _i2.Future<_i4.Quote?> getQuote(int id) =>
+      caller.callServerEndpoint<_i4.Quote?>(
         'quotes',
         'getQuote',
         {'id': id},
       );
 
-  _i2.Future<_i3.Quote> getRandomQuote() =>
-      caller.callServerEndpoint<_i3.Quote>(
+  _i2.Future<_i4.Quote> getRandomQuote() =>
+      caller.callServerEndpoint<_i4.Quote>(
         'quotes',
         'getRandomQuote',
         {},
@@ -57,19 +86,25 @@ class Client extends _i1.ServerpodClient {
     Duration? connectionTimeout,
   }) : super(
           host,
-          _i4.Protocol(),
+          _i5.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
         ) {
+    products = EndpointProducts(this);
     quotes = EndpointQuotes(this);
   }
+
+  late final EndpointProducts products;
 
   late final EndpointQuotes quotes;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'quotes': quotes};
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'products': products,
+        'quotes': quotes,
+      };
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};

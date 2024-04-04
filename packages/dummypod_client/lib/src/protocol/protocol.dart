@@ -12,7 +12,8 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'product.dart' as _i2;
 import 'quote.dart' as _i3;
-import 'package:dummypod_client/src/protocol/quote.dart' as _i4;
+import 'package:dummypod_client/src/protocol/product.dart' as _i4;
+import 'package:dummypod_client/src/protocol/quote.dart' as _i5;
 export 'product.dart';
 export 'quote.dart';
 export 'client.dart';
@@ -51,8 +52,12 @@ class Protocol extends _i1.SerializationManager {
       return (data as List).map((e) => deserialize<String>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i4.Quote>) {
-      return (data as List).map((e) => deserialize<_i4.Quote>(e)).toList()
+    if (t == List<_i4.Product>) {
+      return (data as List).map((e) => deserialize<_i4.Product>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i5.Quote>) {
+      return (data as List).map((e) => deserialize<_i5.Quote>(e)).toList()
           as dynamic;
     }
     return super.deserialize<T>(data, t);

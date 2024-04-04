@@ -9,19 +9,74 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../endpoints/quotes_endpoint.dart' as _i2;
+import '../endpoints/products_endpoint.dart' as _i2;
+import '../endpoints/quotes_endpoint.dart' as _i3;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'quotes': _i2.QuotesEndpoint()
+      'products': _i2.ProductsEndpoint()
+        ..initialize(
+          server,
+          'products',
+          null,
+        ),
+      'quotes': _i3.QuotesEndpoint()
         ..initialize(
           server,
           'quotes',
           null,
-        )
+        ),
     };
+    connectors['products'] = _i1.EndpointConnector(
+      name: 'products',
+      endpoint: endpoints['products']!,
+      methodConnectors: {
+        'getAllProducts': _i1.MethodConnector(
+          name: 'getAllProducts',
+          params: {
+            'limit': _i1.ParameterDescription(
+              name: 'limit',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'skip': _i1.ParameterDescription(
+              name: 'skip',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['products'] as _i2.ProductsEndpoint).getAllProducts(
+            session,
+            limit: params['limit'],
+            skip: params['skip'],
+          ),
+        ),
+        'getProduct': _i1.MethodConnector(
+          name: 'getProduct',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['products'] as _i2.ProductsEndpoint).getProduct(
+            session,
+            params['id'],
+          ),
+        ),
+      },
+    );
     connectors['quotes'] = _i1.EndpointConnector(
       name: 'quotes',
       endpoint: endpoints['quotes']!,
@@ -44,7 +99,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quotes'] as _i2.QuotesEndpoint).getAllQuotes(
+              (endpoints['quotes'] as _i3.QuotesEndpoint).getAllQuotes(
             session,
             limit: params['limit'],
             skip: params['skip'],
@@ -63,7 +118,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quotes'] as _i2.QuotesEndpoint).getQuote(
+              (endpoints['quotes'] as _i3.QuotesEndpoint).getQuote(
             session,
             params['id'],
           ),
@@ -75,7 +130,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quotes'] as _i2.QuotesEndpoint)
+              (endpoints['quotes'] as _i3.QuotesEndpoint)
                   .getRandomQuote(session),
         ),
       },
