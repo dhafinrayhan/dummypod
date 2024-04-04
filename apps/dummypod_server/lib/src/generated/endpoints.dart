@@ -12,6 +12,7 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/products_endpoint.dart' as _i2;
 import '../endpoints/quotes_endpoint.dart' as _i3;
 import 'package:dummypod_server/src/generated/product.dart' as _i4;
+import 'package:serverpod_auth_server/module.dart' as _i5;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -196,5 +197,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    modules['serverpod_auth'] = _i5.Endpoints()..initializeEndpoints(server);
   }
 }

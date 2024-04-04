@@ -14,6 +14,7 @@ import 'product.dart' as _i2;
 import 'quote.dart' as _i3;
 import 'package:dummypod_client/src/protocol/product.dart' as _i4;
 import 'package:dummypod_client/src/protocol/quote.dart' as _i5;
+import 'package:serverpod_auth_client/module.dart' as _i6;
 export 'product.dart';
 export 'quote.dart';
 export 'client.dart';
@@ -60,11 +61,19 @@ class Protocol extends _i1.SerializationManager {
       return (data as List).map((e) => deserialize<_i5.Quote>(e)).toList()
           as dynamic;
     }
+    try {
+      return _i6.Protocol().deserialize<T>(data, t);
+    } catch (_) {}
     return super.deserialize<T>(data, t);
   }
 
   @override
   String? getClassNameForObject(Object data) {
+    String? className;
+    className = _i6.Protocol().getClassNameForObject(data);
+    if (className != null) {
+      return 'serverpod_auth.$className';
+    }
     if (data is _i2.Product) {
       return 'Product';
     }
@@ -76,6 +85,10 @@ class Protocol extends _i1.SerializationManager {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
+    if (data['className'].startsWith('serverpod_auth.')) {
+      data['className'] = data['className'].substring(15);
+      return _i6.Protocol().deserializeByClassName(data);
+    }
     if (data['className'] == 'Product') {
       return deserialize<_i2.Product>(data['data']);
     }
