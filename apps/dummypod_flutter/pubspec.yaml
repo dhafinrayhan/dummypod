@@ -26,7 +26,7 @@ dependencies:
     sdk: flutter
   serverpod_flutter: 1.2.6
   dummypod_client:
-    path: ../dummypod_client
+    path: ../../packages/dummypod_client
 
 
   # The following adds the Cupertino Icons font to your application.

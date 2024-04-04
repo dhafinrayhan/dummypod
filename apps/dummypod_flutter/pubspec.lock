@@ -92,7 +92,7 @@ packages:
   dummypod_client:
     dependency: "direct main"
     description:
-      path: "../dummypod_client"
+      path: "../../packages/dummypod_client"
       relative: true
     source: path
     version: "0.0.0"
