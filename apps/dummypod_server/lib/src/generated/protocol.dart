@@ -11,8 +11,10 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'quote.dart' as _i3;
-import 'package:dummypod_server/src/generated/quote.dart' as _i4;
+import 'product.dart' as _i3;
+import 'quote.dart' as _i4;
+import 'package:dummypod_server/src/generated/quote.dart' as _i5;
+export 'product.dart';
 export 'quote.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -25,6 +27,98 @@ class Protocol extends _i1.SerializationManagerServer {
   static final Protocol _instance = Protocol._();
 
   static final List<_i2.TableDefinition> targetTableDefinitions = [
+    _i2.TableDefinition(
+      name: 'product',
+      dartName: 'Product',
+      schema: 'public',
+      module: 'dummypod',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'product_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'title',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'description',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'price',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'discountPercentage',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'rating',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'stock',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'brand',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'category',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'thumbnail',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'images',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<String>',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'product_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        )
+      ],
+      managed: true,
+    ),
     _i2.TableDefinition(
       name: 'quote',
       dartName: 'Quote',
@@ -81,14 +175,24 @@ class Protocol extends _i1.SerializationManagerServer {
     if (customConstructors.containsKey(t)) {
       return customConstructors[t]!(data, this) as T;
     }
-    if (t == _i3.Quote) {
-      return _i3.Quote.fromJson(data, this) as T;
+    if (t == _i3.Product) {
+      return _i3.Product.fromJson(data, this) as T;
     }
-    if (t == _i1.getType<_i3.Quote?>()) {
-      return (data != null ? _i3.Quote.fromJson(data, this) : null) as T;
+    if (t == _i4.Quote) {
+      return _i4.Quote.fromJson(data, this) as T;
     }
-    if (t == List<_i4.Quote>) {
-      return (data as List).map((e) => deserialize<_i4.Quote>(e)).toList()
+    if (t == _i1.getType<_i3.Product?>()) {
+      return (data != null ? _i3.Product.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<_i4.Quote?>()) {
+      return (data != null ? _i4.Quote.fromJson(data, this) : null) as T;
+    }
+    if (t == List<String>) {
+      return (data as List).map((e) => deserialize<String>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i5.Quote>) {
+      return (data as List).map((e) => deserialize<_i5.Quote>(e)).toList()
           as dynamic;
     }
     try {
@@ -99,7 +203,10 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   String? getClassNameForObject(Object data) {
-    if (data is _i3.Quote) {
+    if (data is _i3.Product) {
+      return 'Product';
+    }
+    if (data is _i4.Quote) {
       return 'Quote';
     }
     return super.getClassNameForObject(data);
@@ -107,8 +214,11 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
+    if (data['className'] == 'Product') {
+      return deserialize<_i3.Product>(data['data']);
+    }
     if (data['className'] == 'Quote') {
-      return deserialize<_i3.Quote>(data['data']);
+      return deserialize<_i4.Quote>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -122,8 +232,10 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i3.Quote:
-        return _i3.Quote.t;
+      case _i3.Product:
+        return _i3.Product.t;
+      case _i4.Quote:
+        return _i4.Quote.t;
     }
     return null;
   }
