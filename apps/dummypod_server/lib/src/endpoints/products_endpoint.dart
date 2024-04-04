@@ -7,8 +7,10 @@ class ProductsEndpoint extends Endpoint {
     Session session, {
     int? limit,
     int? skip,
-    String search = '',
+    String? search,
   }) async {
+    search ??= '';
+
     return await Product.db.find(
       session,
       orderBy: (t) => t.id,

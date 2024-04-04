@@ -49,8 +49,8 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'search': _i1.ParameterDescription(
               name: 'search',
-              type: _i1.getType<String>(),
-              nullable: false,
+              type: _i1.getType<String?>(),
+              nullable: true,
             ),
           },
           call: (

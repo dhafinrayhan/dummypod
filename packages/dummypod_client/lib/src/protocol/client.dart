@@ -24,7 +24,7 @@ class EndpointProducts extends _i1.EndpointRef {
   _i2.Future<List<_i3.Product>> getAllProducts({
     int? limit,
     int? skip,
-    required String search,
+    String? search,
   }) =>
       caller.callServerEndpoint<List<_i3.Product>>(
         'products',
