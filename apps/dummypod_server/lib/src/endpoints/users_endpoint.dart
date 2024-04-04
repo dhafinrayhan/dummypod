@@ -1,4 +1,5 @@
 import 'package:serverpod/serverpod.dart';
+import 'package:serverpod_auth_server/module.dart' as auth;
 
 import '../generated/protocol.dart';
 
@@ -21,6 +22,9 @@ class UsersEndpoint extends Endpoint {
           t.userInfo.fullName.ilike('%$search%') |
           t.userInfo.email.ilike('%$search%') |
           t.userInfo.userName.ilike('%$search%'),
+      include: User.include(
+        userInfo: auth.UserInfo.include(),
+      ),
     );
   }
 
@@ -28,11 +32,22 @@ class UsersEndpoint extends Endpoint {
     final userId = await session.auth.authenticatedUserId;
     if (userId == null) return null;
 
-    return await User.db
-        .findFirstRow(session, where: (t) => t.userInfoId.equals(userId));
+    return await User.db.findFirstRow(
+      session,
+      where: (t) => t.userInfoId.equals(userId),
+      include: User.include(
+        userInfo: auth.UserInfo.include(),
+      ),
+    );
   }
 
   Future<User?> getUser(Session session, int id) async {
-    return await User.db.findById(session, id);
+    return await User.db.findById(
+      session,
+      id,
+      include: User.include(
+        userInfo: auth.UserInfo.include(),
+      ),
+    );
   }
 }
