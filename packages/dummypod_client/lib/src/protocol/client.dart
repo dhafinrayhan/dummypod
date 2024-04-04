@@ -24,7 +24,7 @@ class EndpointProducts extends _i1.EndpointRef {
   _i2.Future<List<_i3.Product>> getAllProducts({
     int? limit,
     int? skip,
-    String? search,
+    required String search,
   }) =>
       caller.callServerEndpoint<List<_i3.Product>>(
         'products',
@@ -41,6 +41,27 @@ class EndpointProducts extends _i1.EndpointRef {
         'products',
         'getProduct',
         {'id': id},
+      );
+
+  _i2.Future<_i3.Product> addProduct(_i3.Product product) =>
+      caller.callServerEndpoint<_i3.Product>(
+        'products',
+        'addProduct',
+        {'product': product},
+      );
+
+  _i2.Future<_i3.Product> updateProduct(_i3.Product product) =>
+      caller.callServerEndpoint<_i3.Product>(
+        'products',
+        'updateProduct',
+        {'product': product},
+      );
+
+  _i2.Future<int> deleteProduct(_i3.Product product) =>
+      caller.callServerEndpoint<int>(
+        'products',
+        'deleteProduct',
+        {'product': product},
       );
 }
 

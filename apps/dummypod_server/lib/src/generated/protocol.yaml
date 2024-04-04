@@ -1,6 +1,9 @@
 products:
   - getAllProducts:
   - getProduct:
+  - addProduct:
+  - updateProduct:
+  - deleteProduct:
 quotes:
   - getAllQuotes:
   - getQuote:

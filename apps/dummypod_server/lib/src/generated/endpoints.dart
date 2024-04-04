@@ -11,6 +11,7 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/products_endpoint.dart' as _i2;
 import '../endpoints/quotes_endpoint.dart' as _i3;
+import 'package:dummypod_server/src/generated/product.dart' as _i4;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -48,8 +49,8 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'search': _i1.ParameterDescription(
               name: 'search',
-              type: _i1.getType<String?>(),
-              nullable: true,
+              type: _i1.getType<String>(),
+              nullable: false,
             ),
           },
           call: (
@@ -79,6 +80,60 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['products'] as _i2.ProductsEndpoint).getProduct(
             session,
             params['id'],
+          ),
+        ),
+        'addProduct': _i1.MethodConnector(
+          name: 'addProduct',
+          params: {
+            'product': _i1.ParameterDescription(
+              name: 'product',
+              type: _i1.getType<_i4.Product>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['products'] as _i2.ProductsEndpoint).addProduct(
+            session,
+            params['product'],
+          ),
+        ),
+        'updateProduct': _i1.MethodConnector(
+          name: 'updateProduct',
+          params: {
+            'product': _i1.ParameterDescription(
+              name: 'product',
+              type: _i1.getType<_i4.Product>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['products'] as _i2.ProductsEndpoint).updateProduct(
+            session,
+            params['product'],
+          ),
+        ),
+        'deleteProduct': _i1.MethodConnector(
+          name: 'deleteProduct',
+          params: {
+            'product': _i1.ParameterDescription(
+              name: 'product',
+              type: _i1.getType<_i4.Product>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['products'] as _i2.ProductsEndpoint).deleteProduct(
+            session,
+            params['product'],
           ),
         ),
       },

@@ -22,4 +22,16 @@ class ProductsEndpoint extends Endpoint {
   Future<Product?> getProduct(Session session, int id) async {
     return await Product.db.findById(session, id);
   }
+
+  Future<Product> addProduct(Session session, Product product) async {
+    return await Product.db.insertRow(session, product);
+  }
+
+  Future<Product> updateProduct(Session session, Product product) async {
+    return await Product.db.updateRow(session, product);
+  }
+
+  Future<int> deleteProduct(Session session, Product product) async {
+    return await Product.db.deleteRow(session, product);
+  }
 }
