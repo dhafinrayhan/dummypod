@@ -9,12 +9,13 @@ class ProductsEndpoint extends Endpoint {
     int? skip,
     String? search,
   }) async {
+    limit ??= 30;
     search ??= '';
 
     return await Product.db.find(
       session,
       orderBy: (t) => t.id,
-      limit: limit,
+      limit: limit == 0 ? null : limit,
       offset: skip,
       where: (t) =>
           t.title.ilike('%$search%') | t.description.ilike('%$search%'),

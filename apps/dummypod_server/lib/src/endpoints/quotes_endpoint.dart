@@ -10,10 +10,12 @@ class QuotesEndpoint extends Endpoint {
     int? limit,
     int? skip,
   }) async {
+    limit ??= 30;
+
     return await Quote.db.find(
       session,
       orderBy: (t) => t.id,
-      limit: limit,
+      limit: limit == 0 ? null : limit,
       offset: skip,
     );
   }
