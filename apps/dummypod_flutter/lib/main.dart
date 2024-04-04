@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+import 'products/get_all_products.dart';
+import 'products/get_product.dart';
 import 'quotes/get_all_quotes.dart';
+import 'quotes/get_quote.dart';
 import 'utils.dart';
 
 void main() {
@@ -39,8 +42,21 @@ class MyHomePage extends HookWidget {
       body: ListView(
         children: [
           ListTile(
+            title: const Text('Get all products'),
+            onTap: () => context.pushPage((_) => const GetAllProductsScreen()),
+          ),
+          ListTile(
+            title: const Text('Get a single product'),
+            onTap: () => context.pushPage((_) => const GetProductScreen()),
+          ),
+          const Divider(),
+          ListTile(
             title: const Text('Get all quotes'),
             onTap: () => context.pushPage((_) => const GetAllQuotesScreen()),
+          ),
+          ListTile(
+            title: const Text('Get a single quote'),
+            onTap: () => context.pushPage((_) => const GetQuoteScreen()),
           ),
         ],
       ),
