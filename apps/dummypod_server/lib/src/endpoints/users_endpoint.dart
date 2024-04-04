@@ -41,10 +41,10 @@ class UsersEndpoint extends Endpoint {
     );
   }
 
-  Future<User?> getUser(Session session, int id) async {
-    return await User.db.findById(
+  Future<User?> getUser(Session session, int userId) async {
+    return await User.db.findFirstRow(
       session,
-      id,
+      where: (t) => t.userInfoId.equals(userId),
       include: User.include(
         userInfo: auth.UserInfo.include(),
       ),
