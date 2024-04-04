@@ -1,4 +1,5 @@
 import 'package:serverpod/serverpod.dart';
+import 'package:serverpod_auth_server/module.dart' as auth;
 
 import 'package:dummypod_server/src/web/routes/root.dart';
 
@@ -28,6 +29,17 @@ void run(List<String> args) async {
     RouteStaticDirectory(serverDirectory: 'static', basePath: '/'),
     '/*',
   );
+
+  auth.AuthConfig.set(auth.AuthConfig(
+    sendValidationEmail: (session, email, validationCode) async {
+      print('validationCode: $validationCode');
+      return true;
+    },
+    sendPasswordResetEmail: (session, userInfo, validationCode) async {
+      print('validationCode: $validationCode');
+      return true;
+    },
+  ));
 
   // Start the server.
   await pod.start();
