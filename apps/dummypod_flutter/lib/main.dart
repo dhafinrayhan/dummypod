@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+import 'products/add_product.dart';
 import 'products/get_all_products.dart';
 import 'products/get_product.dart';
 import 'quotes/get_all_quotes.dart';
@@ -48,6 +49,10 @@ class MyHomePage extends HookWidget {
           ListTile(
             title: const Text('Get a single product'),
             onTap: () => context.pushPage((_) => const GetProductScreen()),
+          ),
+          ListTile(
+            title: const Text('Add a new product'),
+            onTap: () => context.pushPage((_) => const AddProductScreen()),
           ),
           const Divider(),
           ListTile(
