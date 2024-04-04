@@ -1,5 +1,8 @@
+import 'package:dummypod_client/dummypod_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
+import 'package:serverpod_flutter/serverpod_flutter.dart';
 
 import 'products/add_product.dart';
 import 'products/delete_product.dart';
@@ -8,9 +11,22 @@ import 'products/get_product.dart';
 import 'products/update_product.dart';
 import 'quotes/get_all_quotes.dart';
 import 'quotes/get_quote.dart';
+import 'services.dart';
 import 'utils.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  client = Client(
+    'http://$localhost:8080/',
+    authenticationKeyManager: FlutterAuthenticationKeyManager(),
+  )..connectivityMonitor = FlutterConnectivityMonitor();
+
+  sessionManager = SessionManager(
+    caller: client.modules.auth,
+  );
+  await sessionManager.initialize();
+
   runApp(const MyApp());
 }
 
