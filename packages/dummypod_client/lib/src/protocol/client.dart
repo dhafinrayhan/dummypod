@@ -14,20 +14,6 @@ import 'package:dummypod_client/src/protocol/quote.dart' as _i3;
 import 'protocol.dart' as _i4;
 
 /// {@category Endpoint}
-class EndpointExample extends _i1.EndpointRef {
-  EndpointExample(_i1.EndpointCaller caller) : super(caller);
-
-  @override
-  String get name => 'example';
-
-  _i2.Future<String> hello(String name) => caller.callServerEndpoint<String>(
-        'example',
-        'hello',
-        {'name': name},
-      );
-}
-
-/// {@category Endpoint}
 class EndpointQuotes extends _i1.EndpointRef {
   EndpointQuotes(_i1.EndpointCaller caller) : super(caller);
 
@@ -77,19 +63,13 @@ class Client extends _i1.ServerpodClient {
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
         ) {
-    example = EndpointExample(this);
     quotes = EndpointQuotes(this);
   }
-
-  late final EndpointExample example;
 
   late final EndpointQuotes quotes;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {
-        'example': example,
-        'quotes': quotes,
-      };
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {'quotes': quotes};
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};

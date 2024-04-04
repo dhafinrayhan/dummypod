@@ -11,10 +11,8 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'example.dart' as _i3;
-import 'quote.dart' as _i4;
-import 'package:dummypod_server/src/generated/quote.dart' as _i5;
-export 'example.dart';
+import 'quote.dart' as _i3;
+import 'package:dummypod_server/src/generated/quote.dart' as _i4;
 export 'quote.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -83,20 +81,14 @@ class Protocol extends _i1.SerializationManagerServer {
     if (customConstructors.containsKey(t)) {
       return customConstructors[t]!(data, this) as T;
     }
-    if (t == _i3.Example) {
-      return _i3.Example.fromJson(data, this) as T;
+    if (t == _i3.Quote) {
+      return _i3.Quote.fromJson(data, this) as T;
     }
-    if (t == _i4.Quote) {
-      return _i4.Quote.fromJson(data, this) as T;
+    if (t == _i1.getType<_i3.Quote?>()) {
+      return (data != null ? _i3.Quote.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<_i3.Example?>()) {
-      return (data != null ? _i3.Example.fromJson(data, this) : null) as T;
-    }
-    if (t == _i1.getType<_i4.Quote?>()) {
-      return (data != null ? _i4.Quote.fromJson(data, this) : null) as T;
-    }
-    if (t == List<_i5.Quote>) {
-      return (data as List).map((e) => deserialize<_i5.Quote>(e)).toList()
+    if (t == List<_i4.Quote>) {
+      return (data as List).map((e) => deserialize<_i4.Quote>(e)).toList()
           as dynamic;
     }
     try {
@@ -107,10 +99,7 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   String? getClassNameForObject(Object data) {
-    if (data is _i3.Example) {
-      return 'Example';
-    }
-    if (data is _i4.Quote) {
+    if (data is _i3.Quote) {
       return 'Quote';
     }
     return super.getClassNameForObject(data);
@@ -118,11 +107,8 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
-    if (data['className'] == 'Example') {
-      return deserialize<_i3.Example>(data['data']);
-    }
     if (data['className'] == 'Quote') {
-      return deserialize<_i4.Quote>(data['data']);
+      return deserialize<_i3.Quote>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -136,8 +122,8 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i4.Quote:
-        return _i4.Quote.t;
+      case _i3.Quote:
+        return _i3.Quote.t;
     }
     return null;
   }
