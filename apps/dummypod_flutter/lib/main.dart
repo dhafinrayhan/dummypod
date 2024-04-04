@@ -44,6 +44,7 @@ class MyHomePage extends HookWidget {
     // Products
     final productsLimitController = useTextEditingController();
     final productsSkipController = useTextEditingController();
+    final productsSearchController = useTextEditingController();
     final productIdController = useTextEditingController(text: '1');
 
     // Quotes
@@ -79,12 +80,19 @@ class MyHomePage extends HookWidget {
                     keyboardType: TextInputType.number,
                   ),
                 ),
+                Expanded(
+                  child: TextField(
+                    controller: productsSearchController,
+                    decoration: const InputDecoration(labelText: 'Search'),
+                  ),
+                ),
                 RequestButton(
                   label: 'Get all products',
                   onRequest: () async {
                     final products = await client.products.getAllProducts(
                       limit: int.tryParse(productsLimitController.text),
                       skip: int.tryParse(productsSkipController.text),
+                      search: productsSearchController.text,
                     );
                     return products;
                   },

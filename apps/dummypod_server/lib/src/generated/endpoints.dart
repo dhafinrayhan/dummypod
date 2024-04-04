@@ -46,6 +46,11 @@ class Endpoints extends _i1.EndpointDispatch {
               type: _i1.getType<int?>(),
               nullable: true,
             ),
+            'search': _i1.ParameterDescription(
+              name: 'search',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
           },
           call: (
             _i1.Session session,
@@ -55,6 +60,7 @@ class Endpoints extends _i1.EndpointDispatch {
             session,
             limit: params['limit'],
             skip: params['skip'],
+            search: params['search'],
           ),
         ),
         'getProduct': _i1.MethodConnector(
