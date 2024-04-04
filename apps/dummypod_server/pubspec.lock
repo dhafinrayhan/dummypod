@@ -426,7 +426,7 @@ packages:
     source: hosted
     version: "1.2.6"
   serverpod_serialization:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: serverpod_serialization
       sha256: a6e9fd350daf65df50d8e6b07ab1b37ed2a6c8c660f478499d43483694d5729f

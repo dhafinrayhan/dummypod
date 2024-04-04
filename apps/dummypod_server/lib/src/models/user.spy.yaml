@@ -1,0 +1,19 @@
+class: User
+table: user
+fields:
+  userInfo: module:auth:UserInfo?, relation
+  age: int?
+  gender: Gender?
+  phone: String?
+  birthDate: DateTime?
+  bloodGroup: String?
+  height: int?
+  weight: double?
+  eyeColor: String?
+  hair: Hair?
+  domain: String?
+  ip: String?
+indexes:
+  user_info_id_unique_idx:
+    fields: userInfoId
+    unique: true

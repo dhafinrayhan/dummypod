@@ -13,6 +13,9 @@ import 'products/update_product.dart';
 import 'quotes/get_all_quotes.dart';
 import 'quotes/get_quote.dart';
 import 'services.dart';
+import 'users/get_all_users.dart';
+import 'users/get_current_user.dart';
+import 'users/get_user.dart';
 import 'utils.dart';
 
 Future<void> main() async {
@@ -55,12 +58,18 @@ class MyHomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final signedInUser = useListenable(sessionManager).signedInUser;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
       body: ListView(
         children: [
+          ListTile(
+            title: const Text('Signed in user ID'),
+            subtitle: Text((signedInUser?.id).toString()),
+          ),
           Center(
             child: SignInWithEmailButton(
               caller: client.modules.auth,
@@ -87,6 +96,20 @@ class MyHomePage extends HookWidget {
           ListTile(
             title: const Text('Delete a product'),
             onTap: () => context.pushPage((_) => const DeleteProductScreen()),
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('Get all users'),
+            subtitle: const Text('+ Search users'),
+            onTap: () => context.pushPage((_) => const GetAllUsersScreen()),
+          ),
+          ListTile(
+            title: const Text('Get current auth user'),
+            onTap: () => context.pushPage((_) => const GetCurrentUserScreen()),
+          ),
+          ListTile(
+            title: const Text('Get a single user'),
+            onTap: () => context.pushPage((_) => const GetUserScreen()),
           ),
           const Divider(),
           ListTile(

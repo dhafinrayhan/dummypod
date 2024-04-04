@@ -39,6 +39,12 @@ void run(List<String> args) async {
       print('validationCode: $validationCode');
       return true;
     },
+    onUserCreated: (session, userInfo) async {
+      await User.db.insertRow(
+        session,
+        User(userInfoId: userInfo.id!),
+      );
+    },
   ));
 
   // Start the server.

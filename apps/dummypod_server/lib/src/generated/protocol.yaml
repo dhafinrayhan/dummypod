@@ -8,3 +8,7 @@ quotes:
   - getAllQuotes:
   - getQuote:
   - getRandomQuote:
+users:
+  - getAllUsers:
+  - getCurrentUser:
+  - getUser:

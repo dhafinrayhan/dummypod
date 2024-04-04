@@ -11,8 +11,9 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/products_endpoint.dart' as _i2;
 import '../endpoints/quotes_endpoint.dart' as _i3;
-import 'package:dummypod_server/src/generated/product.dart' as _i4;
-import 'package:serverpod_auth_server/module.dart' as _i5;
+import '../endpoints/users_endpoint.dart' as _i4;
+import 'package:dummypod_server/src/generated/product.dart' as _i5;
+import 'package:serverpod_auth_server/module.dart' as _i6;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -28,6 +29,12 @@ class Endpoints extends _i1.EndpointDispatch {
         ..initialize(
           server,
           'quotes',
+          null,
+        ),
+      'users': _i4.UsersEndpoint()
+        ..initialize(
+          server,
+          'users',
           null,
         ),
     };
@@ -88,7 +95,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'product': _i1.ParameterDescription(
               name: 'product',
-              type: _i1.getType<_i4.Product>(),
+              type: _i1.getType<_i5.Product>(),
               nullable: false,
             )
           },
@@ -106,7 +113,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'product': _i1.ParameterDescription(
               name: 'product',
-              type: _i1.getType<_i4.Product>(),
+              type: _i1.getType<_i5.Product>(),
               nullable: false,
             )
           },
@@ -124,7 +131,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'product': _i1.ParameterDescription(
               name: 'product',
-              type: _i1.getType<_i4.Product>(),
+              type: _i1.getType<_i5.Product>(),
               nullable: false,
             )
           },
@@ -197,6 +204,69 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    modules['serverpod_auth'] = _i5.Endpoints()..initializeEndpoints(server);
+    connectors['users'] = _i1.EndpointConnector(
+      name: 'users',
+      endpoint: endpoints['users']!,
+      methodConnectors: {
+        'getAllUsers': _i1.MethodConnector(
+          name: 'getAllUsers',
+          params: {
+            'limit': _i1.ParameterDescription(
+              name: 'limit',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'skip': _i1.ParameterDescription(
+              name: 'skip',
+              type: _i1.getType<int?>(),
+              nullable: true,
+            ),
+            'search': _i1.ParameterDescription(
+              name: 'search',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['users'] as _i4.UsersEndpoint).getAllUsers(
+            session,
+            limit: params['limit'],
+            skip: params['skip'],
+            search: params['search'],
+          ),
+        ),
+        'getCurrentUser': _i1.MethodConnector(
+          name: 'getCurrentUser',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['users'] as _i4.UsersEndpoint).getCurrentUser(session),
+        ),
+        'getUser': _i1.MethodConnector(
+          name: 'getUser',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['users'] as _i4.UsersEndpoint).getUser(
+            session,
+            params['id'],
+          ),
+        ),
+      },
+    );
+    modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);
   }
 }
