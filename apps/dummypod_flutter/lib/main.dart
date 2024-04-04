@@ -1,9 +1,8 @@
-import 'package:flextras/flextras.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
 
-import 'client.dart';
+import 'quotes/get_all_quotes.dart';
+import 'utils.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,180 +32,18 @@ class MyHomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Products
-    final productsLimitController = useTextEditingController();
-    final productsSkipController = useTextEditingController();
-    final productsSearchController = useTextEditingController();
-    final productIdController = useTextEditingController(text: '1');
-
-    // Quotes
-    final quotesLimitController = useTextEditingController();
-    final quotesSkipController = useTextEditingController();
-    final quoteIdController = useTextEditingController(text: '1');
-
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
-      body: SingleChildScrollView(
-        child: SeparatedColumn(
-          separatorBuilder: () => const Gap(16),
-          padding: const EdgeInsets.all(16),
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Products
-            SeparatedRow(
-              separatorBuilder: () => const Gap(8),
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: productsLimitController,
-                    decoration: const InputDecoration(labelText: 'Limit'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: productsSkipController,
-                    decoration: const InputDecoration(labelText: 'Skip'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: productsSearchController,
-                    decoration: const InputDecoration(labelText: 'Search'),
-                  ),
-                ),
-                RequestButton(
-                  label: 'Get all products',
-                  onRequest: () async {
-                    final products = await client.products.getAllProducts(
-                      limit: int.tryParse(productsLimitController.text),
-                      skip: int.tryParse(productsSkipController.text),
-                      search: productsSearchController.text,
-                    );
-                    return products;
-                  },
-                ),
-              ],
-            ),
-            SeparatedRow(
-              separatorBuilder: () => const Gap(8),
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: productIdController,
-                    decoration: const InputDecoration(labelText: 'ID'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                RequestButton(
-                  label: 'Get a single product',
-                  onRequest: () async {
-                    final id = int.parse(productIdController.text);
-                    final product = await client.products.getProduct(id);
-                    return product;
-                  },
-                ),
-              ],
-            ),
-
-            const Divider(),
-
-            // Quotes
-            SeparatedRow(
-              separatorBuilder: () => const Gap(8),
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: quotesLimitController,
-                    decoration: const InputDecoration(labelText: 'Limit'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: quotesSkipController,
-                    decoration: const InputDecoration(labelText: 'Skip'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                RequestButton(
-                  label: 'Get all quotes',
-                  onRequest: () async {
-                    final quotes = await client.quotes.getAllQuotes(
-                      limit: int.tryParse(quotesLimitController.text),
-                      skip: int.tryParse(quotesSkipController.text),
-                    );
-                    return quotes;
-                  },
-                ),
-              ],
-            ),
-            SeparatedRow(
-              separatorBuilder: () => const Gap(8),
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: quoteIdController,
-                    decoration: const InputDecoration(labelText: 'ID'),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-                RequestButton(
-                  label: 'Get a single quote',
-                  onRequest: () async {
-                    final id = int.parse(quoteIdController.text);
-                    final quote = await client.quotes.getQuote(id);
-                    return quote;
-                  },
-                ),
-              ],
-            ),
-            RequestButton(
-              label: 'Get a random quote',
-              onRequest: () async {
-                final quote = await client.quotes.getRandomQuote();
-                return quote;
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class RequestButton extends StatelessWidget {
-  const RequestButton({
-    super.key,
-    required this.onRequest,
-    required this.label,
-  });
-
-  final Future<Object?> Function() onRequest;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: () async {
-        final result = await onRequest();
-
-        if (!context.mounted) return;
-        showDialog(
-          context: context,
-          builder: (_) => SimpleDialog(
-            title: Text(label),
-            contentPadding: const EdgeInsets.all(16),
-            children: [
-              Text(result.toString()),
-            ],
+      body: ListView(
+        children: [
+          ListTile(
+            title: const Text('Get all quotes'),
+            onTap: () => context.pushPage((_) => const GetAllQuotesScreen()),
           ),
-        );
-      },
-      child: Text(label),
+        ],
+      ),
     );
   }
 }
