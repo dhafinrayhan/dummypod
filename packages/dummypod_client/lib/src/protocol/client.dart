@@ -157,6 +157,19 @@ class EndpointUsers extends _i1.EndpointRef {
         'getUser',
         {'userId': userId},
       );
+
+  _i2.Future<_i5.User?> updateCurrentUser(
+    _i5.User user, {
+    String? fullName,
+  }) =>
+      caller.callServerEndpoint<_i5.User?>(
+        'users',
+        'updateCurrentUser',
+        {
+          'user': user,
+          'fullName': fullName,
+        },
+      );
 }
 
 class _Modules {

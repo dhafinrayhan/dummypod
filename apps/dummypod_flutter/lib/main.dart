@@ -17,6 +17,7 @@ import 'services.dart';
 import 'users/get_all_users.dart';
 import 'users/get_current_user.dart';
 import 'users/get_user.dart';
+import 'users/update_current_user.dart';
 import 'utils.dart';
 
 Future<void> main() async {
@@ -128,6 +129,11 @@ class MyHomePage extends HookWidget {
           ListTile(
             title: const Text('Get a single user'),
             onTap: () => context.pushPage((_) => const GetUserScreen()),
+          ),
+          ListTile(
+            title: const Text('Update current auth user'),
+            onTap: () =>
+                context.pushPage((_) => const UpdateCurrentUserScreen()),
           ),
           const Divider(),
           ListTile(

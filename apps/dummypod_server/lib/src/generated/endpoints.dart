@@ -14,7 +14,8 @@ import '../endpoints/products_endpoint.dart' as _i3;
 import '../endpoints/quotes_endpoint.dart' as _i4;
 import '../endpoints/users_endpoint.dart' as _i5;
 import 'package:dummypod_server/src/generated/product.dart' as _i6;
-import 'package:serverpod_auth_server/module.dart' as _i7;
+import 'package:dummypod_server/src/generated/user.dart' as _i7;
+import 'package:serverpod_auth_server/module.dart' as _i8;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -296,8 +297,32 @@ class Endpoints extends _i1.EndpointDispatch {
             params['userId'],
           ),
         ),
+        'updateCurrentUser': _i1.MethodConnector(
+          name: 'updateCurrentUser',
+          params: {
+            'user': _i1.ParameterDescription(
+              name: 'user',
+              type: _i1.getType<_i7.User>(),
+              nullable: false,
+            ),
+            'fullName': _i1.ParameterDescription(
+              name: 'fullName',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['users'] as _i5.UsersEndpoint).updateCurrentUser(
+            session,
+            params['user'],
+            fullName: params['fullName'],
+          ),
+        ),
       },
     );
-    modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i8.Endpoints()..initializeEndpoints(server);
   }
 }

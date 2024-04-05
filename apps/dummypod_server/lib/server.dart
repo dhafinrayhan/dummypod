@@ -31,6 +31,8 @@ void run(List<String> args) async {
   );
 
   auth.AuthConfig.set(auth.AuthConfig(
+    userCanEditFullName: true,
+    minPasswordLength: 6,
     sendValidationEmail: (session, email, validationCode) async {
       print('validationCode: $validationCode');
       return true;

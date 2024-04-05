@@ -50,4 +50,29 @@ class UsersEndpoint extends Endpoint {
       ),
     );
   }
+
+  Future<User?> updateCurrentUser(
+    Session session,
+    User user, {
+    String? fullName,
+  }) async {
+    final userId = await session.auth.authenticatedUserId;
+    if (userId == null) return null;
+
+    auth.UserInfo? userInfo;
+    if (fullName != null) {
+      userInfo = (await auth.UserInfo.db.findById(session, userId))!;
+      userInfo.fullName = fullName;
+    }
+
+    await session.dbNext.transaction((transaction) async {
+      if (userInfo != null) {
+        await auth.UserInfo.db
+            .updateRow(session, userInfo, transaction: transaction);
+      }
+      await User.db.updateRow(session, user, transaction: transaction);
+    });
+
+    return getCurrentUser(session);
+  }
 }
