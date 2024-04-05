@@ -1,3 +1,6 @@
+data:
+  - populateDatabase:
+  - clearDatabase:
 products:
   - getAllProducts:
   - getProduct:

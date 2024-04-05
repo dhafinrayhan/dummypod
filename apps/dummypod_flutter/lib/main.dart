@@ -68,6 +68,15 @@ class MyHomePage extends HookWidget {
       body: ListView(
         children: [
           ListTile(
+            title: const Text('Populate database'),
+            onTap: () => client.data.populateDatabase(),
+          ),
+          ListTile(
+            title: const Text('Clear database'),
+            onTap: () => client.data.populateDatabase(),
+          ),
+          const Divider(),
+          ListTile(
             title: const Text('Signed in user ID'),
             subtitle: Text((sessionManager.signedInUser?.id).toString()),
             trailing: sessionManager.isSignedIn

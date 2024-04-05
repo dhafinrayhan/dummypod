@@ -9,35 +9,66 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../endpoints/products_endpoint.dart' as _i2;
-import '../endpoints/quotes_endpoint.dart' as _i3;
-import '../endpoints/users_endpoint.dart' as _i4;
-import 'package:dummypod_server/src/generated/product.dart' as _i5;
-import 'package:serverpod_auth_server/module.dart' as _i6;
+import '../endpoints/data_endpoint.dart' as _i2;
+import '../endpoints/products_endpoint.dart' as _i3;
+import '../endpoints/quotes_endpoint.dart' as _i4;
+import '../endpoints/users_endpoint.dart' as _i5;
+import 'package:dummypod_server/src/generated/product.dart' as _i6;
+import 'package:serverpod_auth_server/module.dart' as _i7;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'products': _i2.ProductsEndpoint()
+      'data': _i2.DataEndpoint()
+        ..initialize(
+          server,
+          'data',
+          null,
+        ),
+      'products': _i3.ProductsEndpoint()
         ..initialize(
           server,
           'products',
           null,
         ),
-      'quotes': _i3.QuotesEndpoint()
+      'quotes': _i4.QuotesEndpoint()
         ..initialize(
           server,
           'quotes',
           null,
         ),
-      'users': _i4.UsersEndpoint()
+      'users': _i5.UsersEndpoint()
         ..initialize(
           server,
           'users',
           null,
         ),
     };
+    connectors['data'] = _i1.EndpointConnector(
+      name: 'data',
+      endpoint: endpoints['data']!,
+      methodConnectors: {
+        'populateDatabase': _i1.MethodConnector(
+          name: 'populateDatabase',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['data'] as _i2.DataEndpoint).populateDatabase(session),
+        ),
+        'clearDatabase': _i1.MethodConnector(
+          name: 'clearDatabase',
+          params: {},
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['data'] as _i2.DataEndpoint).clearDatabase(session),
+        ),
+      },
+    );
     connectors['products'] = _i1.EndpointConnector(
       name: 'products',
       endpoint: endpoints['products']!,
@@ -65,7 +96,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['products'] as _i2.ProductsEndpoint).getAllProducts(
+              (endpoints['products'] as _i3.ProductsEndpoint).getAllProducts(
             session,
             limit: params['limit'],
             skip: params['skip'],
@@ -85,7 +116,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['products'] as _i2.ProductsEndpoint).getProduct(
+              (endpoints['products'] as _i3.ProductsEndpoint).getProduct(
             session,
             params['id'],
           ),
@@ -95,7 +126,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'product': _i1.ParameterDescription(
               name: 'product',
-              type: _i1.getType<_i5.Product>(),
+              type: _i1.getType<_i6.Product>(),
               nullable: false,
             )
           },
@@ -103,7 +134,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['products'] as _i2.ProductsEndpoint).addProduct(
+              (endpoints['products'] as _i3.ProductsEndpoint).addProduct(
             session,
             params['product'],
           ),
@@ -113,7 +144,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'product': _i1.ParameterDescription(
               name: 'product',
-              type: _i1.getType<_i5.Product>(),
+              type: _i1.getType<_i6.Product>(),
               nullable: false,
             )
           },
@@ -121,7 +152,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['products'] as _i2.ProductsEndpoint).updateProduct(
+              (endpoints['products'] as _i3.ProductsEndpoint).updateProduct(
             session,
             params['product'],
           ),
@@ -131,7 +162,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'product': _i1.ParameterDescription(
               name: 'product',
-              type: _i1.getType<_i5.Product>(),
+              type: _i1.getType<_i6.Product>(),
               nullable: false,
             )
           },
@@ -139,7 +170,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['products'] as _i2.ProductsEndpoint).deleteProduct(
+              (endpoints['products'] as _i3.ProductsEndpoint).deleteProduct(
             session,
             params['product'],
           ),
@@ -168,7 +199,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quotes'] as _i3.QuotesEndpoint).getAllQuotes(
+              (endpoints['quotes'] as _i4.QuotesEndpoint).getAllQuotes(
             session,
             limit: params['limit'],
             skip: params['skip'],
@@ -187,7 +218,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quotes'] as _i3.QuotesEndpoint).getQuote(
+              (endpoints['quotes'] as _i4.QuotesEndpoint).getQuote(
             session,
             params['id'],
           ),
@@ -199,7 +230,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['quotes'] as _i3.QuotesEndpoint)
+              (endpoints['quotes'] as _i4.QuotesEndpoint)
                   .getRandomQuote(session),
         ),
       },
@@ -231,7 +262,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).getAllUsers(
+              (endpoints['users'] as _i5.UsersEndpoint).getAllUsers(
             session,
             limit: params['limit'],
             skip: params['skip'],
@@ -245,13 +276,13 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).getCurrentUser(session),
+              (endpoints['users'] as _i5.UsersEndpoint).getCurrentUser(session),
         ),
         'getUser': _i1.MethodConnector(
           name: 'getUser',
           params: {
-            'id': _i1.ParameterDescription(
-              name: 'id',
+            'userId': _i1.ParameterDescription(
+              name: 'userId',
               type: _i1.getType<int>(),
               nullable: false,
             )
@@ -260,13 +291,13 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['users'] as _i4.UsersEndpoint).getUser(
+              (endpoints['users'] as _i5.UsersEndpoint).getUser(
             session,
-            params['id'],
+            params['userId'],
           ),
         ),
       },
     );
-    modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
   }
 }

@@ -17,6 +17,26 @@ import 'package:serverpod_auth_client/module.dart' as _i6;
 import 'protocol.dart' as _i7;
 
 /// {@category Endpoint}
+class EndpointData extends _i1.EndpointRef {
+  EndpointData(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'data';
+
+  _i2.Future<void> populateDatabase() => caller.callServerEndpoint<void>(
+        'data',
+        'populateDatabase',
+        {},
+      );
+
+  _i2.Future<void> clearDatabase() => caller.callServerEndpoint<void>(
+        'data',
+        'clearDatabase',
+        {},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointProducts extends _i1.EndpointRef {
   EndpointProducts(_i1.EndpointCaller caller) : super(caller);
 
@@ -131,10 +151,11 @@ class EndpointUsers extends _i1.EndpointRef {
         {},
       );
 
-  _i2.Future<_i5.User?> getUser(int id) => caller.callServerEndpoint<_i5.User?>(
+  _i2.Future<_i5.User?> getUser(int userId) =>
+      caller.callServerEndpoint<_i5.User?>(
         'users',
         'getUser',
-        {'id': id},
+        {'userId': userId},
       );
 }
 
@@ -161,11 +182,14 @@ class Client extends _i1.ServerpodClient {
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
         ) {
+    data = EndpointData(this);
     products = EndpointProducts(this);
     quotes = EndpointQuotes(this);
     users = EndpointUsers(this);
     modules = _Modules(this);
   }
+
+  late final EndpointData data;
 
   late final EndpointProducts products;
 
@@ -177,6 +201,7 @@ class Client extends _i1.ServerpodClient {
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'data': data,
         'products': products,
         'quotes': quotes,
         'users': users,
