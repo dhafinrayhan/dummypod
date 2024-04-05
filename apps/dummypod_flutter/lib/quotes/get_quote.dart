@@ -2,7 +2,7 @@ import 'package:flextras/flextras.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
-import '../client.dart';
+import '../services.dart';
 import '../widgets.dart';
 
 class GetQuoteScreen extends HookWidget {

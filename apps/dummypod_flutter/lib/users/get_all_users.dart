@@ -5,27 +5,29 @@ import 'package:gap/gap.dart';
 import '../services.dart';
 import '../widgets.dart';
 
-class GetAllQuotesScreen extends HookWidget {
-  const GetAllQuotesScreen({super.key});
+class GetAllUsersScreen extends HookWidget {
+  const GetAllUsersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final limitController = useTextEditingController();
     final skipController = useTextEditingController();
+    final searchController = useTextEditingController();
 
     final result = useState('');
 
     Future<void> callEndpoint() async {
-      final quotes = await client.quotes.getAllQuotes(
+      final users = await client.users.getAllUsers(
         limit: int.tryParse(limitController.text),
         skip: int.tryParse(skipController.text),
+        search: searchController.text,
       );
 
-      result.value = quotes.toString();
+      result.value = users.toString();
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Get all quotes')),
+      appBar: AppBar(title: const Text('Get all users')),
       body: SingleChildScrollView(
         child: SeparatedColumn(
           separatorBuilder: () => const Gap(16),
@@ -40,6 +42,10 @@ class GetAllQuotesScreen extends HookWidget {
               controller: skipController,
               decoration: const InputDecoration(labelText: 'Skip'),
               keyboardType: TextInputType.number,
+            ),
+            TextField(
+              controller: searchController,
+              decoration: const InputDecoration(labelText: 'Search'),
             ),
             FilledButton(
               onPressed: callEndpoint,

@@ -5,34 +5,26 @@ import 'package:gap/gap.dart';
 import '../services.dart';
 import '../widgets.dart';
 
-class GetProductScreen extends HookWidget {
-  const GetProductScreen({super.key});
+class GetCurrentUserScreen extends HookWidget {
+  const GetCurrentUserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final idController = useTextEditingController();
-
     final result = useState('');
 
     Future<void> callEndpoint() async {
-      final product =
-          await client.products.getProduct(int.parse(idController.text));
+      final user = await client.users.getCurrentUser();
 
-      result.value = product.toString();
+      result.value = user.toString();
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Get a single product')),
+      appBar: AppBar(title: const Text('Get current auth user')),
       body: SingleChildScrollView(
         child: SeparatedColumn(
           separatorBuilder: () => const Gap(16),
           padding: const EdgeInsets.all(16),
           children: [
-            TextField(
-              controller: idController,
-              decoration: const InputDecoration(labelText: 'ID'),
-              keyboardType: TextInputType.number,
-            ),
             FilledButton(
               onPressed: callEndpoint,
               child: const Text('Call endpoint'),

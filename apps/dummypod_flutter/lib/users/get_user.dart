@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import '../services.dart';
 import '../widgets.dart';
 
-class GetProductScreen extends HookWidget {
-  const GetProductScreen({super.key});
+class GetUserScreen extends HookWidget {
+  const GetUserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +15,13 @@ class GetProductScreen extends HookWidget {
     final result = useState('');
 
     Future<void> callEndpoint() async {
-      final product =
-          await client.products.getProduct(int.parse(idController.text));
+      final user = await client.users.getUser(int.parse(idController.text));
 
-      result.value = product.toString();
+      result.value = user.toString();
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Get a single product')),
+      appBar: AppBar(title: const Text('Get a single user')),
       body: SingleChildScrollView(
         child: SeparatedColumn(
           separatorBuilder: () => const Gap(16),

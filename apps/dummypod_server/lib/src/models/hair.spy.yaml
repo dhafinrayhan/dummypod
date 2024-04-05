@@ -1,0 +1,4 @@
+class: Hair
+fields:
+  color: String
+  tpye: String

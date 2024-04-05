@@ -27,6 +27,7 @@ class QuotesEndpoint extends Endpoint {
   Future<Quote> getRandomQuote(Session session) async {
     final count = await Quote.db.count(session);
     final id = Random().nextInt(count) + 1;
+
     return (await Quote.db.findById(session, id))!;
   }
 }

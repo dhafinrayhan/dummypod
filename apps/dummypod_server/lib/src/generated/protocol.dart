@@ -11,12 +11,20 @@ library protocol; // ignore_for_file: no_leading_underscores_for_library_prefixe
 
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'package:serverpod/protocol.dart' as _i2;
-import 'product.dart' as _i3;
-import 'quote.dart' as _i4;
-import 'package:dummypod_server/src/generated/product.dart' as _i5;
-import 'package:dummypod_server/src/generated/quote.dart' as _i6;
+import 'package:serverpod_auth_server/module.dart' as _i3;
+import 'gender.dart' as _i4;
+import 'hair.dart' as _i5;
+import 'product.dart' as _i6;
+import 'quote.dart' as _i7;
+import 'user.dart' as _i8;
+import 'package:dummypod_server/src/generated/product.dart' as _i9;
+import 'package:dummypod_server/src/generated/quote.dart' as _i10;
+import 'package:dummypod_server/src/generated/user.dart' as _i11;
+export 'gender.dart';
+export 'hair.dart';
 export 'product.dart';
 export 'quote.dart';
+export 'user.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
   Protocol._();
@@ -164,6 +172,135 @@ class Protocol extends _i1.SerializationManagerServer {
       ],
       managed: true,
     ),
+    _i2.TableDefinition(
+      name: 'user',
+      dartName: 'User',
+      schema: 'public',
+      module: 'dummypod',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'user_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userInfoId',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'age',
+          columnType: _i2.ColumnType.integer,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'gender',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'protocol:Gender?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'phone',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'birthDate',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'bloodGroup',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'height',
+          columnType: _i2.ColumnType.integer,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'weight',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: true,
+          dartType: 'double?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'eyeColor',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'hair',
+          columnType: _i2.ColumnType.json,
+          isNullable: true,
+          dartType: 'protocol:Hair?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'domain',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'ip',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+      ],
+      foreignKeys: [
+        _i2.ForeignKeyDefinition(
+          constraintName: 'user_fk_0',
+          columns: ['userInfoId'],
+          referenceTable: 'serverpod_user_info',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _i2.ForeignKeyAction.noAction,
+          onDelete: _i2.ForeignKeyAction.noAction,
+          matchType: null,
+        )
+      ],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'user_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'user_info_id_unique_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userInfoId',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    ..._i3.Protocol.targetTableDefinitions,
     ..._i2.Protocol.targetTableDefinitions,
   ];
 
@@ -176,30 +313,55 @@ class Protocol extends _i1.SerializationManagerServer {
     if (customConstructors.containsKey(t)) {
       return customConstructors[t]!(data, this) as T;
     }
-    if (t == _i3.Product) {
-      return _i3.Product.fromJson(data, this) as T;
+    if (t == _i4.Gender) {
+      return _i4.Gender.fromJson(data) as T;
     }
-    if (t == _i4.Quote) {
-      return _i4.Quote.fromJson(data, this) as T;
+    if (t == _i5.Hair) {
+      return _i5.Hair.fromJson(data, this) as T;
     }
-    if (t == _i1.getType<_i3.Product?>()) {
-      return (data != null ? _i3.Product.fromJson(data, this) : null) as T;
+    if (t == _i6.Product) {
+      return _i6.Product.fromJson(data, this) as T;
     }
-    if (t == _i1.getType<_i4.Quote?>()) {
-      return (data != null ? _i4.Quote.fromJson(data, this) : null) as T;
+    if (t == _i7.Quote) {
+      return _i7.Quote.fromJson(data, this) as T;
+    }
+    if (t == _i8.User) {
+      return _i8.User.fromJson(data, this) as T;
+    }
+    if (t == _i1.getType<_i4.Gender?>()) {
+      return (data != null ? _i4.Gender.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i5.Hair?>()) {
+      return (data != null ? _i5.Hair.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<_i6.Product?>()) {
+      return (data != null ? _i6.Product.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<_i7.Quote?>()) {
+      return (data != null ? _i7.Quote.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<_i8.User?>()) {
+      return (data != null ? _i8.User.fromJson(data, this) : null) as T;
     }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i5.Product>) {
-      return (data as List).map((e) => deserialize<_i5.Product>(e)).toList()
+    if (t == List<_i9.Product>) {
+      return (data as List).map((e) => deserialize<_i9.Product>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i6.Quote>) {
-      return (data as List).map((e) => deserialize<_i6.Quote>(e)).toList()
+    if (t == List<_i10.Quote>) {
+      return (data as List).map((e) => deserialize<_i10.Quote>(e)).toList()
           as dynamic;
     }
+    if (t == List<_i11.User>) {
+      return (data as List).map((e) => deserialize<_i11.User>(e)).toList()
+          as dynamic;
+    }
+    try {
+      return _i3.Protocol().deserialize<T>(data, t);
+    } catch (_) {}
     try {
       return _i2.Protocol().deserialize<T>(data, t);
     } catch (_) {}
@@ -208,22 +370,49 @@ class Protocol extends _i1.SerializationManagerServer {
 
   @override
   String? getClassNameForObject(Object data) {
-    if (data is _i3.Product) {
+    String? className;
+    className = _i3.Protocol().getClassNameForObject(data);
+    if (className != null) {
+      return 'serverpod_auth.$className';
+    }
+    if (data is _i4.Gender) {
+      return 'Gender';
+    }
+    if (data is _i5.Hair) {
+      return 'Hair';
+    }
+    if (data is _i6.Product) {
       return 'Product';
     }
-    if (data is _i4.Quote) {
+    if (data is _i7.Quote) {
       return 'Quote';
+    }
+    if (data is _i8.User) {
+      return 'User';
     }
     return super.getClassNameForObject(data);
   }
 
   @override
   dynamic deserializeByClassName(Map<String, dynamic> data) {
+    if (data['className'].startsWith('serverpod_auth.')) {
+      data['className'] = data['className'].substring(15);
+      return _i3.Protocol().deserializeByClassName(data);
+    }
+    if (data['className'] == 'Gender') {
+      return deserialize<_i4.Gender>(data['data']);
+    }
+    if (data['className'] == 'Hair') {
+      return deserialize<_i5.Hair>(data['data']);
+    }
     if (data['className'] == 'Product') {
-      return deserialize<_i3.Product>(data['data']);
+      return deserialize<_i6.Product>(data['data']);
     }
     if (data['className'] == 'Quote') {
-      return deserialize<_i4.Quote>(data['data']);
+      return deserialize<_i7.Quote>(data['data']);
+    }
+    if (data['className'] == 'User') {
+      return deserialize<_i8.User>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -231,16 +420,24 @@ class Protocol extends _i1.SerializationManagerServer {
   @override
   _i1.Table? getTableForType(Type t) {
     {
+      var table = _i3.Protocol().getTableForType(t);
+      if (table != null) {
+        return table;
+      }
+    }
+    {
       var table = _i2.Protocol().getTableForType(t);
       if (table != null) {
         return table;
       }
     }
     switch (t) {
-      case _i3.Product:
-        return _i3.Product.t;
-      case _i4.Quote:
-        return _i4.Quote.t;
+      case _i6.Product:
+        return _i6.Product.t;
+      case _i7.Quote:
+        return _i7.Quote.t;
+      case _i8.User:
+        return _i8.User.t;
     }
     return null;
   }
