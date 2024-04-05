@@ -12,6 +12,7 @@ import 'products/get_product.dart';
 import 'products/update_product.dart';
 import 'quotes/get_all_quotes.dart';
 import 'quotes/get_quote.dart';
+import 'quotes/get_random_quote.dart';
 import 'services.dart';
 import 'users/get_all_users.dart';
 import 'users/get_current_user.dart';
@@ -127,6 +128,10 @@ class MyHomePage extends HookWidget {
           ListTile(
             title: const Text('Get a single quote'),
             onTap: () => context.pushPage((_) => const GetQuoteScreen()),
+          ),
+          ListTile(
+            title: const Text('Get a random quote'),
+            onTap: () => context.pushPage((_) => const GetRandomQuoteScreen()),
           ),
         ],
       ),
