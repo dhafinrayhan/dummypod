@@ -73,7 +73,7 @@ class MyHomePage extends HookWidget {
           ),
           ListTile(
             title: const Text('Clear database'),
-            onTap: () => client.data.populateDatabase(),
+            onTap: () => client.data.clearDatabase(),
           ),
           const Divider(),
           ListTile(
