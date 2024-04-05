@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
@@ -24,10 +22,16 @@ class QuotesEndpoint extends Endpoint {
     return await Quote.db.findById(session, id);
   }
 
-  Future<Quote> getRandomQuote(Session session) async {
-    final count = await Quote.db.count(session);
-    final id = Random().nextInt(count) + 1;
+  Future<Quote?> getRandomQuote(Session session) async {
+    // Select a random id from the table.
+    final result = await session.dbNext.unsafeQuery(
+      'SELECT id FROM quote '
+      'ORDER BY RANDOM() '
+      'LIMIT 1',
+    );
+    if (result.isEmpty) return null;
+    final id = result.first.first as int;
 
-    return (await Quote.db.findById(session, id))!;
+    return Quote.db.findById(session, id);
   }
 }

@@ -114,8 +114,8 @@ class EndpointQuotes extends _i1.EndpointRef {
         {'id': id},
       );
 
-  _i2.Future<_i4.Quote> getRandomQuote() =>
-      caller.callServerEndpoint<_i4.Quote>(
+  _i2.Future<_i4.Quote?> getRandomQuote() =>
+      caller.callServerEndpoint<_i4.Quote?>(
         'quotes',
         'getRandomQuote',
         {},
