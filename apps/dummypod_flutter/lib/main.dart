@@ -58,7 +58,7 @@ class MyHomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final signedInUser = useListenable(sessionManager).signedInUser;
+    useListenable(sessionManager);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,12 +68,20 @@ class MyHomePage extends HookWidget {
         children: [
           ListTile(
             title: const Text('Signed in user ID'),
-            subtitle: Text((signedInUser?.id).toString()),
-          ),
-          Center(
-            child: SignInWithEmailButton(
-              caller: client.modules.auth,
-            ),
+            subtitle: Text((sessionManager.signedInUser?.id).toString()),
+            trailing: sessionManager.isSignedIn
+                ? ElevatedButton.icon(
+                    onPressed: () => sessionManager.signOut(),
+                    label: const Text('Sign out'),
+                    icon: const Icon(Icons.logout),
+                    style: const ButtonStyle(
+                        elevation: MaterialStatePropertyAll(0)),
+                  )
+                : SignInWithEmailButton(
+                    caller: client.modules.auth,
+                    style: const ButtonStyle(
+                        elevation: MaterialStatePropertyAll(0)),
+                  ),
           ),
           const Divider(),
           ListTile(
