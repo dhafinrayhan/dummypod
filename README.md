@@ -27,7 +27,7 @@ serverpod generate
 ```bash
 serverpod generate
 ```
-If the modification affects how the database is structured, also run
+If the modification affects how the database is structured, you need to create and apply the migration:
 ```bash
 serverpod create-migration
 dart run bin/main.dart --role maintenance --apply-migrations
