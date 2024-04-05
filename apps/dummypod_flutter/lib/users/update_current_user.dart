@@ -11,12 +11,9 @@ class UpdateCurrentUserScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    useListenable(sessionManager);
-
     final user = useState<User?>(null);
 
-    final fullNameController =
-        useTextEditingController(text: sessionManager.signedInUser!.fullName);
+    final fullNameController = useTextEditingController();
     final ageController = useTextEditingController();
 
     Future<void> fetch() async {
@@ -32,6 +29,7 @@ class UpdateCurrentUserScreen extends HookWidget {
     useEffect(() {
       final u = user.value;
       if (u != null) {
+        fullNameController.text = u.userInfo?.fullName ?? '';
         ageController.text = u.age?.toString() ?? '';
       }
 
