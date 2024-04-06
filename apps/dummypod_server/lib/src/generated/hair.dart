@@ -13,12 +13,12 @@ import 'package:serverpod/serverpod.dart' as _i1;
 abstract class Hair extends _i1.SerializableEntity {
   Hair._({
     required this.color,
-    required this.tpye,
+    required this.type,
   });
 
   factory Hair({
     required String color,
-    required String tpye,
+    required String type,
   }) = _HairImpl;
 
   factory Hair.fromJson(
@@ -28,23 +28,23 @@ abstract class Hair extends _i1.SerializableEntity {
     return Hair(
       color:
           serializationManager.deserialize<String>(jsonSerialization['color']),
-      tpye: serializationManager.deserialize<String>(jsonSerialization['tpye']),
+      type: serializationManager.deserialize<String>(jsonSerialization['type']),
     );
   }
 
   String color;
 
-  String tpye;
+  String type;
 
   Hair copyWith({
     String? color,
-    String? tpye,
+    String? type,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       'color': color,
-      'tpye': tpye,
+      'type': type,
     };
   }
 
@@ -52,7 +52,7 @@ abstract class Hair extends _i1.SerializableEntity {
   Map<String, dynamic> allToJson() {
     return {
       'color': color,
-      'tpye': tpye,
+      'type': type,
     };
   }
 }
@@ -60,20 +60,20 @@ abstract class Hair extends _i1.SerializableEntity {
 class _HairImpl extends Hair {
   _HairImpl({
     required String color,
-    required String tpye,
+    required String type,
   }) : super._(
           color: color,
-          tpye: tpye,
+          type: type,
         );
 
   @override
   Hair copyWith({
     String? color,
-    String? tpye,
+    String? type,
   }) {
     return Hair(
       color: color ?? this.color,
-      tpye: tpye ?? this.tpye,
+      type: type ?? this.type,
     );
   }
 }
