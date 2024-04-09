@@ -73,6 +73,6 @@ class UsersEndpoint extends Endpoint {
       await User.db.updateRow(session, user, transaction: transaction);
     });
 
-    return getCurrentUser(session);
+    return await getCurrentUser(session);
   }
 }

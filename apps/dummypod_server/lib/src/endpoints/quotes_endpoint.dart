@@ -32,6 +32,6 @@ class QuotesEndpoint extends Endpoint {
     if (result.isEmpty) return null;
     final id = result.first.first as int;
 
-    return Quote.db.findById(session, id);
+    return await Quote.db.findById(session, id);
   }
 }
