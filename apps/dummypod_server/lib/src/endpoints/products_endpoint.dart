@@ -3,6 +3,9 @@ import 'package:serverpod/serverpod.dart';
 import '../generated/protocol.dart';
 
 class ProductsEndpoint extends Endpoint {
+  /// Get products from the database.
+  ///
+  /// If [limit] is not specified, it takes the first 30 products by default.
   Future<List<Product>> getAllProducts(
     Session session, {
     int? limit,
