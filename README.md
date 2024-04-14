@@ -36,20 +36,20 @@ dart run bin/main.dart --role maintenance --apply-migrations
 ## APIs
 
 ### Auth
-- [ ] Login and get token
-- [ ] Get auth user
-- [ ] Refresh token
+- [x] Login and get token (handled by `serverpod_auth`)
+- [x] Get auth user (handled by `serverpod_auth`)
+- [x] Refresh token (handled by `serverpod_auth`)
 
 ### Products
-- [ ] Get all products
-- [ ] Get a single product
-- [ ] Search products
-- [ ] Limit & skip products
+- [x] Get all products
+- [x] Get a single product
+- [x] Search products
+- [x] Limit & skip products
 - [ ] Get all products categories
 - [ ] Get products of category
-- [ ] Add a product
-- [ ] Update a product
-- [ ] Delete a product
+- [x] Add a product
+- [x] Update a product
+- [x] Delete a product
 
 ### Carts
 - [ ] Get all carts
@@ -60,21 +60,21 @@ dart run bin/main.dart --role maintenance --apply-migrations
 - [ ] Delete a cart
 
 ### Recipes
-- [ ] Get all recipes
-- [ ] Get a single recipe
-- [ ] Search recipes
-- [ ] Limit & skip recipes
+- [x] Get all recipes
+- [x] Get a single recipe
+- [x] Search recipes
+- [x] Limit & skip recipes
 - [ ] Get all recipes tags
 - [ ] Get recipes by tag
 - [ ] Get recipes by meal type
 
 ### Users
-- [ ] Get all users
-- [ ] Get auth user
-- [ ] Get a single user
-- [ ] Search users
+- [x] Get all users
+- [x] Get auth user (handled by `serverpod_auth`)
+- [x] Get a single user
+- [x] Search users
 - [ ] Filter users
-- [ ] Limit & skip users
+- [x] Limit & skip users
 - [ ] Get user's carts
 - [ ] Get user's posts
 - [ ] Get user's todos
@@ -123,10 +123,10 @@ dart run bin/main.dart --role maintenance --apply-migrations
 - [ ] Delete a todo
 
 ### Quotes
-- [ ] Get all quotes
-- [ ] Get a single quote
-- [ ] Get a random quote
-- [ ] Limit & skip quotes
+- [x] Get all quotes
+- [x] Get a single quote
+- [x] Get a random quote
+- [x] Limit & skip quotes
 
   
   [DummyJSON]: https://github.com/Ovi/DummyJSON
