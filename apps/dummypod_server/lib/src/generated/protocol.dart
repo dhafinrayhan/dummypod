@@ -20,7 +20,8 @@ import 'recipe.dart' as _i8;
 import 'user.dart' as _i9;
 import 'package:dummypod_server/src/generated/product.dart' as _i10;
 import 'package:dummypod_server/src/generated/quote.dart' as _i11;
-import 'package:dummypod_server/src/generated/user.dart' as _i12;
+import 'package:dummypod_server/src/generated/recipe.dart' as _i12;
+import 'package:dummypod_server/src/generated/user.dart' as _i13;
 export 'gender.dart';
 export 'hair.dart';
 export 'product.dart';
@@ -473,8 +474,12 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data as List).map((e) => deserialize<_i11.Quote>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i12.User>) {
-      return (data as List).map((e) => deserialize<_i12.User>(e)).toList()
+    if (t == List<_i12.Recipe>) {
+      return (data as List).map((e) => deserialize<_i12.Recipe>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i13.User>) {
+      return (data as List).map((e) => deserialize<_i13.User>(e)).toList()
           as dynamic;
     }
     try {

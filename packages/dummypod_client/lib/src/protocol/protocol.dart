@@ -18,8 +18,9 @@ import 'recipe.dart' as _i6;
 import 'user.dart' as _i7;
 import 'package:dummypod_client/src/protocol/product.dart' as _i8;
 import 'package:dummypod_client/src/protocol/quote.dart' as _i9;
-import 'package:dummypod_client/src/protocol/user.dart' as _i10;
-import 'package:serverpod_auth_client/module.dart' as _i11;
+import 'package:dummypod_client/src/protocol/recipe.dart' as _i10;
+import 'package:dummypod_client/src/protocol/user.dart' as _i11;
+import 'package:serverpod_auth_client/module.dart' as _i12;
 export 'gender.dart';
 export 'hair.dart';
 export 'product.dart';
@@ -94,12 +95,16 @@ class Protocol extends _i1.SerializationManager {
       return (data as List).map((e) => deserialize<_i9.Quote>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i10.User>) {
-      return (data as List).map((e) => deserialize<_i10.User>(e)).toList()
+    if (t == List<_i10.Recipe>) {
+      return (data as List).map((e) => deserialize<_i10.Recipe>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i11.User>) {
+      return (data as List).map((e) => deserialize<_i11.User>(e)).toList()
           as dynamic;
     }
     try {
-      return _i11.Protocol().deserialize<T>(data, t);
+      return _i12.Protocol().deserialize<T>(data, t);
     } catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -107,7 +112,7 @@ class Protocol extends _i1.SerializationManager {
   @override
   String? getClassNameForObject(Object data) {
     String? className;
-    className = _i11.Protocol().getClassNameForObject(data);
+    className = _i12.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth.$className';
     }
@@ -136,7 +141,7 @@ class Protocol extends _i1.SerializationManager {
   dynamic deserializeByClassName(Map<String, dynamic> data) {
     if (data['className'].startsWith('serverpod_auth.')) {
       data['className'] = data['className'].substring(15);
-      return _i11.Protocol().deserializeByClassName(data);
+      return _i12.Protocol().deserializeByClassName(data);
     }
     if (data['className'] == 'Gender') {
       return deserialize<_i2.Gender>(data['data']);

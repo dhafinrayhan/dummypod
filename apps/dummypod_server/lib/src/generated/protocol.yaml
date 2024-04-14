@@ -11,6 +11,9 @@ quotes:
   - getAllQuotes:
   - getQuote:
   - getRandomQuote:
+recipes:
+  - getAllRecipes:
+  - getRecipe:
 users:
   - getAllUsers:
   - getCurrentUser:
