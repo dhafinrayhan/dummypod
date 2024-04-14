@@ -50,15 +50,13 @@ class MyApp extends StatelessWidget {
         inputDecorationTheme:
             const InputDecorationTheme(border: OutlineInputBorder()),
       ),
-      home: const MyHomePage(title: 'DummyPod Example'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends HookWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +64,7 @@ class MyHomePage extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: const Text('DummyPod Demo'),
       ),
       body: ListView(
         children: [
