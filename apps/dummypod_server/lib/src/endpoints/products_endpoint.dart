@@ -8,20 +8,20 @@ class ProductsEndpoint extends Endpoint {
   /// If [limit] is not specified, it takes the first 30 products by default.
   Future<List<Product>> getAllProducts(
     Session session, {
+    String? search,
     int? limit,
     int? skip,
-    String? search,
   }) async {
-    limit ??= 30;
     search ??= '';
+    limit ??= 30;
 
     return await Product.db.find(
       session,
       orderBy: (t) => t.id,
-      limit: limit == 0 ? null : limit,
-      offset: skip,
       where: (t) =>
           t.title.ilike('%$search%') | t.description.ilike('%$search%'),
+      limit: limit == 0 ? null : limit,
+      offset: skip,
     );
   }
 

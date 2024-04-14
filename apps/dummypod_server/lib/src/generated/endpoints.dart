@@ -84,6 +84,11 @@ class Endpoints extends _i1.EndpointDispatch {
         'getAllProducts': _i1.MethodConnector(
           name: 'getAllProducts',
           params: {
+            'search': _i1.ParameterDescription(
+              name: 'search',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
             'limit': _i1.ParameterDescription(
               name: 'limit',
               type: _i1.getType<int?>(),
@@ -94,11 +99,6 @@ class Endpoints extends _i1.EndpointDispatch {
               type: _i1.getType<int?>(),
               nullable: true,
             ),
-            'search': _i1.ParameterDescription(
-              name: 'search',
-              type: _i1.getType<String?>(),
-              nullable: true,
-            ),
           },
           call: (
             _i1.Session session,
@@ -106,9 +106,9 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['products'] as _i3.ProductsEndpoint).getAllProducts(
             session,
+            search: params['search'],
             limit: params['limit'],
             skip: params['skip'],
-            search: params['search'],
           ),
         ),
         'getProduct': _i1.MethodConnector(
@@ -250,6 +250,11 @@ class Endpoints extends _i1.EndpointDispatch {
         'getAllRecipes': _i1.MethodConnector(
           name: 'getAllRecipes',
           params: {
+            'search': _i1.ParameterDescription(
+              name: 'search',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
             'limit': _i1.ParameterDescription(
               name: 'limit',
               type: _i1.getType<int?>(),
@@ -260,11 +265,6 @@ class Endpoints extends _i1.EndpointDispatch {
               type: _i1.getType<int?>(),
               nullable: true,
             ),
-            'search': _i1.ParameterDescription(
-              name: 'search',
-              type: _i1.getType<String?>(),
-              nullable: true,
-            ),
           },
           call: (
             _i1.Session session,
@@ -272,9 +272,9 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['recipes'] as _i5.RecipesEndpoint).getAllRecipes(
             session,
+            search: params['search'],
             limit: params['limit'],
             skip: params['skip'],
-            search: params['search'],
           ),
         ),
         'getRecipe': _i1.MethodConnector(
@@ -304,6 +304,11 @@ class Endpoints extends _i1.EndpointDispatch {
         'getAllUsers': _i1.MethodConnector(
           name: 'getAllUsers',
           params: {
+            'search': _i1.ParameterDescription(
+              name: 'search',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
             'limit': _i1.ParameterDescription(
               name: 'limit',
               type: _i1.getType<int?>(),
@@ -314,11 +319,6 @@ class Endpoints extends _i1.EndpointDispatch {
               type: _i1.getType<int?>(),
               nullable: true,
             ),
-            'search': _i1.ParameterDescription(
-              name: 'search',
-              type: _i1.getType<String?>(),
-              nullable: true,
-            ),
           },
           call: (
             _i1.Session session,
@@ -326,9 +326,9 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['users'] as _i6.UsersEndpoint).getAllUsers(
             session,
+            search: params['search'],
             limit: params['limit'],
             skip: params['skip'],
-            search: params['search'],
           ),
         ),
         'getCurrentUser': _i1.MethodConnector(

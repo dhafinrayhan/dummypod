@@ -6,25 +6,23 @@ import '../generated/protocol.dart';
 class UsersEndpoint extends Endpoint {
   Future<List<User>> getAllUsers(
     Session session, {
+    String? search,
     int? limit,
     int? skip,
-    String? search,
   }) async {
-    limit ??= 30;
     search ??= '';
+    limit ??= 30;
 
     return await User.db.find(
       session,
       orderBy: (t) => t.id,
-      limit: limit == 0 ? null : limit,
-      offset: skip,
+      include: User.include(userInfo: auth.UserInfo.include()),
       where: (t) =>
           t.userInfo.fullName.ilike('%$search%') |
           t.userInfo.email.ilike('%$search%') |
           t.userInfo.userName.ilike('%$search%'),
-      include: User.include(
-        userInfo: auth.UserInfo.include(),
-      ),
+      limit: limit == 0 ? null : limit,
+      offset: skip,
     );
   }
 
@@ -34,20 +32,16 @@ class UsersEndpoint extends Endpoint {
 
     return await User.db.findFirstRow(
       session,
+      include: User.include(userInfo: auth.UserInfo.include()),
       where: (t) => t.userInfoId.equals(userId),
-      include: User.include(
-        userInfo: auth.UserInfo.include(),
-      ),
     );
   }
 
   Future<User?> getUser(Session session, int userId) async {
     return await User.db.findFirstRow(
       session,
+      include: User.include(userInfo: auth.UserInfo.include()),
       where: (t) => t.userInfoId.equals(userId),
-      include: User.include(
-        userInfo: auth.UserInfo.include(),
-      ),
     );
   }
 

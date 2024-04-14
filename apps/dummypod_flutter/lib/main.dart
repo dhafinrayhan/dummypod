@@ -99,7 +99,7 @@ class MyHomePage extends HookWidget {
           const Divider(),
           ListTile(
             title: const Text('Get all products'),
-            subtitle: const Text('+ Search products'),
+            subtitle: const Text('+ Search, limit & skip products'),
             onTap: () => context.pushPage((_) => const GetAllProductsScreen()),
           ),
           ListTile(
@@ -121,7 +121,7 @@ class MyHomePage extends HookWidget {
           const Divider(),
           ListTile(
             title: const Text('Get all recipes'),
-            subtitle: const Text('+ Search recipes'),
+            subtitle: const Text('+ Search, limit & skip recipes'),
             onTap: () => context.pushPage((_) => const GetAllRecipesScreen()),
           ),
           ListTile(
@@ -131,7 +131,7 @@ class MyHomePage extends HookWidget {
           const Divider(),
           ListTile(
             title: const Text('Get all users'),
-            subtitle: const Text('+ Search users'),
+            subtitle: const Text('+ Search, limit & skip users'),
             onTap: () => context.pushPage((_) => const GetAllUsersScreen()),
           ),
           ListTile(
@@ -150,6 +150,7 @@ class MyHomePage extends HookWidget {
           const Divider(),
           ListTile(
             title: const Text('Get all quotes'),
+            subtitle: const Text('+ Limit & skip quotes'),
             onTap: () => context.pushPage((_) => const GetAllQuotesScreen()),
           ),
           ListTile(

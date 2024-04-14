@@ -10,17 +10,17 @@ class GetAllProductsScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchController = useTextEditingController();
     final limitController = useTextEditingController();
     final skipController = useTextEditingController();
-    final searchController = useTextEditingController();
 
     final result = useState('');
 
     Future<void> callEndpoint() async {
       final products = await client.products.getAllProducts(
+        search: searchController.text,
         limit: int.tryParse(limitController.text),
         skip: int.tryParse(skipController.text),
-        search: searchController.text,
       );
 
       result.value = products.toString();
@@ -34,6 +34,10 @@ class GetAllProductsScreen extends HookWidget {
           padding: const EdgeInsets.all(16),
           children: [
             TextField(
+              controller: searchController,
+              decoration: const InputDecoration(labelText: 'Search'),
+            ),
+            TextField(
               controller: limitController,
               decoration: const InputDecoration(labelText: 'Limit'),
               keyboardType: TextInputType.number,
@@ -42,10 +46,6 @@ class GetAllProductsScreen extends HookWidget {
               controller: skipController,
               decoration: const InputDecoration(labelText: 'Skip'),
               keyboardType: TextInputType.number,
-            ),
-            TextField(
-              controller: searchController,
-              decoration: const InputDecoration(labelText: 'Search'),
             ),
             FilledButton(
               onPressed: callEndpoint,

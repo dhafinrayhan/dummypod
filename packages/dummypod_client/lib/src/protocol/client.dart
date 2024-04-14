@@ -48,17 +48,17 @@ class EndpointProducts extends _i1.EndpointRef {
   ///
   /// If [limit] is not specified, it takes the first 30 products by default.
   _i2.Future<List<_i3.Product>> getAllProducts({
+    String? search,
     int? limit,
     int? skip,
-    String? search,
   }) =>
       caller.callServerEndpoint<List<_i3.Product>>(
         'products',
         'getAllProducts',
         {
+          'search': search,
           'limit': limit,
           'skip': skip,
-          'search': search,
         },
       );
 
@@ -137,17 +137,17 @@ class EndpointRecipes extends _i1.EndpointRef {
   ///
   /// If [limit] is not specified, it takes the first 30 recipes by default.
   _i2.Future<List<_i5.Recipe>> getAllRecipes({
+    String? search,
     int? limit,
     int? skip,
-    String? search,
   }) =>
       caller.callServerEndpoint<List<_i5.Recipe>>(
         'recipes',
         'getAllRecipes',
         {
+          'search': search,
           'limit': limit,
           'skip': skip,
-          'search': search,
         },
       );
 
@@ -167,17 +167,17 @@ class EndpointUsers extends _i1.EndpointRef {
   String get name => 'users';
 
   _i2.Future<List<_i6.User>> getAllUsers({
+    String? search,
     int? limit,
     int? skip,
-    String? search,
   }) =>
       caller.callServerEndpoint<List<_i6.User>>(
         'users',
         'getAllUsers',
         {
+          'search': search,
           'limit': limit,
           'skip': skip,
-          'search': search,
         },
       );
 

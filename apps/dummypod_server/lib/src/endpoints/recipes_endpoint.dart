@@ -8,19 +8,19 @@ class RecipesEndpoint extends Endpoint {
   /// If [limit] is not specified, it takes the first 30 recipes by default.
   Future<List<Recipe>> getAllRecipes(
     Session session, {
+    String? search,
     int? limit,
     int? skip,
-    String? search,
   }) async {
-    limit ??= 30;
     search ??= '';
+    limit ??= 30;
 
     return await Recipe.db.find(
       session,
       orderBy: (t) => t.id,
+      where: (t) => t.name.ilike('%$search%'),
       limit: limit == 0 ? null : limit,
       offset: skip,
-      where: (t) => t.name.ilike('%$search%'),
     );
   }
 
