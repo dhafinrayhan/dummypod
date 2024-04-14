@@ -13,6 +13,8 @@ import 'products/update_product.dart';
 import 'quotes/get_all_quotes.dart';
 import 'quotes/get_quote.dart';
 import 'quotes/get_random_quote.dart';
+import 'recipes/get_all_recipes.dart';
+import 'recipes/get_recipe.dart';
 import 'services.dart';
 import 'users/get_all_users.dart';
 import 'users/get_current_user.dart';
@@ -115,6 +117,16 @@ class MyHomePage extends HookWidget {
           ListTile(
             title: const Text('Delete a product'),
             onTap: () => context.pushPage((_) => const DeleteProductScreen()),
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('Get all recipes'),
+            subtitle: const Text('+ Search recipes'),
+            onTap: () => context.pushPage((_) => const GetAllRecipesScreen()),
+          ),
+          ListTile(
+            title: const Text('Get a single recipe'),
+            onTap: () => context.pushPage((_) => const GetRecipeScreen()),
           ),
           const Divider(),
           ListTile(

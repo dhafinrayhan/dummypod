@@ -1,0 +1,18 @@
+class: Recipe
+table: recipe
+fields:
+  name: String
+  ingredients: List<String>
+  instructions: List<String>
+  prepTimeMinutes: int
+  cookTimeMinutes: int
+  servings: int
+  # difficulty: Difficulty
+  cuisine: String
+  caloriesPerServing: int
+  tags: List<String>
+  # userId: int
+  image: String
+  rating: double
+  reviewCount: int
+  mealType: List<String>

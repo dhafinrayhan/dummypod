@@ -16,14 +16,17 @@ import 'gender.dart' as _i4;
 import 'hair.dart' as _i5;
 import 'product.dart' as _i6;
 import 'quote.dart' as _i7;
-import 'user.dart' as _i8;
-import 'package:dummypod_server/src/generated/product.dart' as _i9;
-import 'package:dummypod_server/src/generated/quote.dart' as _i10;
-import 'package:dummypod_server/src/generated/user.dart' as _i11;
+import 'recipe.dart' as _i8;
+import 'user.dart' as _i9;
+import 'package:dummypod_server/src/generated/product.dart' as _i10;
+import 'package:dummypod_server/src/generated/quote.dart' as _i11;
+import 'package:dummypod_server/src/generated/recipe.dart' as _i12;
+import 'package:dummypod_server/src/generated/user.dart' as _i13;
 export 'gender.dart';
 export 'hair.dart';
 export 'product.dart';
 export 'quote.dart';
+export 'recipe.dart';
 export 'user.dart';
 
 class Protocol extends _i1.SerializationManagerServer {
@@ -158,6 +161,116 @@ class Protocol extends _i1.SerializationManagerServer {
       indexes: [
         _i2.IndexDefinition(
           indexName: 'quote_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            )
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        )
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'recipe',
+      dartName: 'Recipe',
+      schema: 'public',
+      module: 'dummypod',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'recipe_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'name',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'ingredients',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<String>',
+        ),
+        _i2.ColumnDefinition(
+          name: 'instructions',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<String>',
+        ),
+        _i2.ColumnDefinition(
+          name: 'prepTimeMinutes',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'cookTimeMinutes',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'servings',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'cuisine',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'caloriesPerServing',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'tags',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<String>',
+        ),
+        _i2.ColumnDefinition(
+          name: 'image',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'rating',
+          columnType: _i2.ColumnType.doublePrecision,
+          isNullable: false,
+          dartType: 'double',
+        ),
+        _i2.ColumnDefinition(
+          name: 'reviewCount',
+          columnType: _i2.ColumnType.integer,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'mealType',
+          columnType: _i2.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<String>',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'recipe_pkey',
           tableSpace: null,
           elements: [
             _i2.IndexElementDefinition(
@@ -325,8 +438,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i7.Quote) {
       return _i7.Quote.fromJson(data, this) as T;
     }
-    if (t == _i8.User) {
-      return _i8.User.fromJson(data, this) as T;
+    if (t == _i8.Recipe) {
+      return _i8.Recipe.fromJson(data, this) as T;
+    }
+    if (t == _i9.User) {
+      return _i9.User.fromJson(data, this) as T;
     }
     if (t == _i1.getType<_i4.Gender?>()) {
       return (data != null ? _i4.Gender.fromJson(data) : null) as T;
@@ -340,23 +456,30 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i7.Quote?>()) {
       return (data != null ? _i7.Quote.fromJson(data, this) : null) as T;
     }
-    if (t == _i1.getType<_i8.User?>()) {
-      return (data != null ? _i8.User.fromJson(data, this) : null) as T;
+    if (t == _i1.getType<_i8.Recipe?>()) {
+      return (data != null ? _i8.Recipe.fromJson(data, this) : null) as T;
+    }
+    if (t == _i1.getType<_i9.User?>()) {
+      return (data != null ? _i9.User.fromJson(data, this) : null) as T;
     }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i9.Product>) {
-      return (data as List).map((e) => deserialize<_i9.Product>(e)).toList()
+    if (t == List<_i10.Product>) {
+      return (data as List).map((e) => deserialize<_i10.Product>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i10.Quote>) {
-      return (data as List).map((e) => deserialize<_i10.Quote>(e)).toList()
+    if (t == List<_i11.Quote>) {
+      return (data as List).map((e) => deserialize<_i11.Quote>(e)).toList()
           as dynamic;
     }
-    if (t == List<_i11.User>) {
-      return (data as List).map((e) => deserialize<_i11.User>(e)).toList()
+    if (t == List<_i12.Recipe>) {
+      return (data as List).map((e) => deserialize<_i12.Recipe>(e)).toList()
+          as dynamic;
+    }
+    if (t == List<_i13.User>) {
+      return (data as List).map((e) => deserialize<_i13.User>(e)).toList()
           as dynamic;
     }
     try {
@@ -387,7 +510,10 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data is _i7.Quote) {
       return 'Quote';
     }
-    if (data is _i8.User) {
+    if (data is _i8.Recipe) {
+      return 'Recipe';
+    }
+    if (data is _i9.User) {
       return 'User';
     }
     return super.getClassNameForObject(data);
@@ -411,8 +537,11 @@ class Protocol extends _i1.SerializationManagerServer {
     if (data['className'] == 'Quote') {
       return deserialize<_i7.Quote>(data['data']);
     }
+    if (data['className'] == 'Recipe') {
+      return deserialize<_i8.Recipe>(data['data']);
+    }
     if (data['className'] == 'User') {
-      return deserialize<_i8.User>(data['data']);
+      return deserialize<_i9.User>(data['data']);
     }
     return super.deserializeByClassName(data);
   }
@@ -436,8 +565,10 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i6.Product.t;
       case _i7.Quote:
         return _i7.Quote.t;
-      case _i8.User:
-        return _i8.User.t;
+      case _i8.Recipe:
+        return _i8.Recipe.t;
+      case _i9.User:
+        return _i9.User.t;
     }
     return null;
   }

@@ -20,14 +20,17 @@ class DataEndpoint extends Endpoint {
 
     final (
       products,
+      recipes,
       quotes,
     ) = await (
       getListFromJson<Product>('products.json'),
+      getListFromJson<Recipe>('recipes.json'),
       getListFromJson<Quote>('quotes.json'),
     ).wait;
 
     await session.dbNext.transaction((transaction) async {
       await Product.db.insert(session, products, transaction: transaction);
+      await Recipe.db.insert(session, recipes, transaction: transaction);
       await Quote.db.insert(session, quotes, transaction: transaction);
     });
   }
@@ -35,6 +38,11 @@ class DataEndpoint extends Endpoint {
   Future<void> clearDatabase(Session session) async {
     await session.dbNext.transaction((transaction) async {
       await Product.db.deleteWhere(
+        session,
+        where: (t) => t.id > 0,
+        transaction: transaction,
+      );
+      await Recipe.db.deleteWhere(
         session,
         where: (t) => t.id > 0,
         transaction: transaction,

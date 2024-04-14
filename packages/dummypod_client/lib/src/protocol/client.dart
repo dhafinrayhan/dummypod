@@ -12,9 +12,10 @@ import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:dummypod_client/src/protocol/product.dart' as _i3;
 import 'package:dummypod_client/src/protocol/quote.dart' as _i4;
-import 'package:dummypod_client/src/protocol/user.dart' as _i5;
-import 'package:serverpod_auth_client/module.dart' as _i6;
-import 'protocol.dart' as _i7;
+import 'package:dummypod_client/src/protocol/recipe.dart' as _i5;
+import 'package:dummypod_client/src/protocol/user.dart' as _i6;
+import 'package:serverpod_auth_client/module.dart' as _i7;
+import 'protocol.dart' as _i8;
 
 /// {@category Endpoint}
 class EndpointData extends _i1.EndpointRef {
@@ -43,6 +44,9 @@ class EndpointProducts extends _i1.EndpointRef {
   @override
   String get name => 'products';
 
+  /// Get products from the database.
+  ///
+  /// If [limit] is not specified, it takes the first 30 products by default.
   _i2.Future<List<_i3.Product>> getAllProducts({
     int? limit,
     int? skip,
@@ -123,18 +127,51 @@ class EndpointQuotes extends _i1.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointRecipes extends _i1.EndpointRef {
+  EndpointRecipes(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'recipes';
+
+  /// Get recipes from the database.
+  ///
+  /// If [limit] is not specified, it takes the first 30 recipes by default.
+  _i2.Future<List<_i5.Recipe>> getAllRecipes({
+    int? limit,
+    int? skip,
+    String? search,
+  }) =>
+      caller.callServerEndpoint<List<_i5.Recipe>>(
+        'recipes',
+        'getAllRecipes',
+        {
+          'limit': limit,
+          'skip': skip,
+          'search': search,
+        },
+      );
+
+  _i2.Future<_i5.Recipe?> getRecipe(int id) =>
+      caller.callServerEndpoint<_i5.Recipe?>(
+        'recipes',
+        'getRecipe',
+        {'id': id},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointUsers extends _i1.EndpointRef {
   EndpointUsers(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'users';
 
-  _i2.Future<List<_i5.User>> getAllUsers({
+  _i2.Future<List<_i6.User>> getAllUsers({
     int? limit,
     int? skip,
     String? search,
   }) =>
-      caller.callServerEndpoint<List<_i5.User>>(
+      caller.callServerEndpoint<List<_i6.User>>(
         'users',
         'getAllUsers',
         {
@@ -144,25 +181,25 @@ class EndpointUsers extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<_i5.User?> getCurrentUser() =>
-      caller.callServerEndpoint<_i5.User?>(
+  _i2.Future<_i6.User?> getCurrentUser() =>
+      caller.callServerEndpoint<_i6.User?>(
         'users',
         'getCurrentUser',
         {},
       );
 
-  _i2.Future<_i5.User?> getUser(int userId) =>
-      caller.callServerEndpoint<_i5.User?>(
+  _i2.Future<_i6.User?> getUser(int userId) =>
+      caller.callServerEndpoint<_i6.User?>(
         'users',
         'getUser',
         {'userId': userId},
       );
 
-  _i2.Future<_i5.User?> updateCurrentUser(
-    _i5.User user, {
+  _i2.Future<_i6.User?> updateCurrentUser(
+    _i6.User user, {
     String? fullName,
   }) =>
-      caller.callServerEndpoint<_i5.User?>(
+      caller.callServerEndpoint<_i6.User?>(
         'users',
         'updateCurrentUser',
         {
@@ -174,10 +211,10 @@ class EndpointUsers extends _i1.EndpointRef {
 
 class _Modules {
   _Modules(Client client) {
-    auth = _i6.Caller(client);
+    auth = _i7.Caller(client);
   }
 
-  late final _i6.Caller auth;
+  late final _i7.Caller auth;
 }
 
 class Client extends _i1.ServerpodClient {
@@ -189,7 +226,7 @@ class Client extends _i1.ServerpodClient {
     Duration? connectionTimeout,
   }) : super(
           host,
-          _i7.Protocol(),
+          _i8.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -198,6 +235,7 @@ class Client extends _i1.ServerpodClient {
     data = EndpointData(this);
     products = EndpointProducts(this);
     quotes = EndpointQuotes(this);
+    recipes = EndpointRecipes(this);
     users = EndpointUsers(this);
     modules = _Modules(this);
   }
@@ -208,6 +246,8 @@ class Client extends _i1.ServerpodClient {
 
   late final EndpointQuotes quotes;
 
+  late final EndpointRecipes recipes;
+
   late final EndpointUsers users;
 
   late final _Modules modules;
@@ -217,6 +257,7 @@ class Client extends _i1.ServerpodClient {
         'data': data,
         'products': products,
         'quotes': quotes,
+        'recipes': recipes,
         'users': users,
       };
 
