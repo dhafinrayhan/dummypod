@@ -72,11 +72,51 @@ class MyHomePage extends HookWidget {
         children: [
           ListTile(
             title: const Text('Populate database'),
-            onTap: () => client.data.populateDatabase(),
+            onTap: () async {
+              final proceed = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Confirmation'),
+                  content:
+                      const Text('Are you sure you want to populate database?'),
+                  actions: [
+                    for (final action in [(false, 'No'), (true, 'Yes')])
+                      TextButton(
+                        child: Text(action.$2),
+                        onPressed: () => Navigator.of(context).pop(action.$1),
+                      )
+                  ],
+                ),
+              );
+
+              if (proceed ?? false) {
+                client.data.populateDatabase();
+              }
+            },
           ),
           ListTile(
             title: const Text('Clear database'),
-            onTap: () => client.data.clearDatabase(),
+            onTap: () async {
+              final proceed = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Confirmation'),
+                  content:
+                      const Text('Are you sure you want to clear database?'),
+                  actions: [
+                    for (final action in [(false, 'No'), (true, 'Yes')])
+                      TextButton(
+                        child: Text(action.$2),
+                        onPressed: () => Navigator.of(context).pop(action.$1),
+                      )
+                  ],
+                ),
+              );
+
+              if (proceed ?? false) {
+                client.data.clearDatabase();
+              }
+            },
           ),
           const Divider(),
           ListTile(
