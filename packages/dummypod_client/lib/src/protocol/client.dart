@@ -43,6 +43,9 @@ class EndpointProducts extends _i1.EndpointRef {
   @override
   String get name => 'products';
 
+  /// Get products from the database.
+  ///
+  /// If [limit] is not specified, it takes the first 30 products by default.
   _i2.Future<List<_i3.Product>> getAllProducts({
     int? limit,
     int? skip,
